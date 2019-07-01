@@ -1,4 +1,6 @@
 def look_knave(iter=1, start=1):
+    """Calculate iter terms in the binay Look-Knave sequence starting at start.
+    """
     def iteration(truestring):
         liestring = ''
         outstring = ''
