@@ -1,17 +1,22 @@
-def look_knave(iter=1, start=1):
-    """Calculate iter terms in the binay Look-Knave sequence starting at start.
+def look_knave(int iter=1, int start=1):
+    """Calculate iter terms in the binary Look-Knave sequence starting at start.
     """
-    def iteration(truestring):
-        liestring = ''
-        outstring = ''
-
+    def iteration(string truestring):
+        cdef string liestring = ''
+        cdef string outstring = ''
+        cdef int truedigit = 0
+        cdef int liedigit = 0
+        cdef string glyph = ''
         print(truestring)
+
 
         for glyph in truestring:
             truedigit = int(glyph)
-            if truedigit in range(2):
+            if truedigit == 0 or truedigit == 1:
                 liedigit = 1 - truedigit
                 liestring += str(liedigit)
+
+        cdef int i = 0
 
         while liestring:
             i, glyph = 0, liestring[0]
@@ -25,8 +30,8 @@ def look_knave(iter=1, start=1):
             outstring += glyph
         return(outstring)
 
-    truestring = str(start)
-    for i in range(iter):
+    cdef string truestring = str(start)
+    for int j in range(iter):
         truestring = iteration(truestring)
 
     return int(truestring)
