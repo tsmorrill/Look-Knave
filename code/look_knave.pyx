@@ -1,13 +1,12 @@
-def look_knave(int iter=1, int start=1):
-    """Calculate iter terms in the binary Look-Knave sequence starting at start.
+def k_map(iter=1, start=1, print_all=False):
+    """Calculate iter terms in the binay Look-Knave sequence starting at start.
     """
-    def iteration(string truestring):
-        cdef string liestring = ''
-        cdef string outstring = ''
-        cdef int truedigit = 0
-        cdef int liedigit = 0
-        cdef string glyph = ''
-        print(truestring)
+    def iteration(truestring):
+        liestring = ''
+        outstring = ''
+
+        if print_all:
+            print(truestring)
 
 
         for glyph in truestring:
