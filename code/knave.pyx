@@ -2,21 +2,22 @@ def k_map(iter=1, start=1, print_all=False):
     """Calculate iter terms in the binay Look-Knave sequence starting at start.
     """
     def iteration(truestring):
-        liestring = ''
-        outstring = ''
+        cdef str liestring = ''
+        cdef str outstring = ''
 
         if print_all:
             print(truestring)
 
+        cdef int truedigit, index
 
-        for glyph in truestring:
-            truedigit = int(glyph)
-            if truedigit == 0 or truedigit == 1:
+        for index in range(len(truestring)):
+            truedigit = int(truestring[index])
+            if truedigit in range(2):
                 liedigit = 1 - truedigit
                 liestring += str(liedigit)
 
-        cdef int i = 0
-
+        cdef int i
+        cdef str glyph
         while liestring:
             i, glyph = 0, liestring[0]
             while liestring:
@@ -29,8 +30,8 @@ def k_map(iter=1, start=1, print_all=False):
             outstring += glyph
         return(outstring)
 
-    cdef string truestring = str(start)
-    for int j in range(iter):
+    cdef str truestring = str(start)
+    for i in range(iter):
         truestring = iteration(truestring)
 
     return int(truestring)
