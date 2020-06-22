@@ -363,12 +363,61 @@ body.cython { font-family: courier; font-size: 12; }
     <span style="background-color: #FFFF00">Yellow lines</span> hint at Python interaction.<br />
     Click on a line that starts with a "<code>+</code>" to see the C code that Cython generated for it.
 </p>
-<p>Raw output: <a href="knave.c">knave.c</a></p>
-<div class="cython"><pre class="cython line score-62" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">01</span>: <span class="k">def</span> <span class="nf">k_map</span><span class="p">(</span><span class="nb">int</span> <span class="nb">iter</span><span class="o">=</span><span class="mf">1</span><span class="p">,</span> <span class="nb">str</span> <span class="n">string</span><span class="o">=</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="n">bint</span> <span class="n">print_all</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span></pre>
-<pre class='cython code score-62 '>/* Python wrapper */
+<p>Raw output: <a href="knave.cpp">knave.cpp</a></p>
+<div class="cython"><pre class="cython line score-0">&#xA0;<span class="">01</span>: <span class="c"># distutils: language = c++</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">02</span>: </pre>
+<pre class="cython line score-0">&#xA0;<span class="">03</span>: <span class="k">from</span> <span class="nn">libcpp.string</span> <span class="k">cimport</span> <span class="n">string</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">04</span>: </pre>
+<pre class="cython line score-55" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">05</span>: <span class="k">cpdef</span> <span class="kt">str</span> <span class="nf">k_map</span><span class="p">(</span><span class="nb">int</span> <span class="nb">iter</span><span class="o">=</span><span class="mf">1</span><span class="p">,</span> <span class="nb">str</span> <span class="n">string</span><span class="o">=</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="n">bint</span> <span class="n">print_all</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span></pre>
+<pre class='cython code score-55 '>static PyObject *__pyx_pw_5knave_1k_map(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_5knave_k_map *__pyx_optional_args) {
+  int __pyx_v_iter = ((int)1);
+  PyObject *__pyx_v_string = ((PyObject*)__pyx_kp_s_1);
+  int __pyx_v_print_all = ((int)1);
+  PyObject *__pyx_v_buffer = 0;
+  PyObject *__pyx_v_glyph = 0;
+  int __pyx_v_start;
+  int __pyx_v_end;
+  int __pyx_v_rlen;
+  int __pyx_v_blen;
+  int __pyx_v_i;
+  double __pyx_v_percent;
+  PyObject *__pyx_v_lieglyph = NULL;
+  PyObject *__pyx_r = NULL;
+  <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
+  <span class='refnanny'>__Pyx_RefNannySetupContext</span>("k_map", 0);
+  if (__pyx_optional_args) {
+    if (__pyx_optional_args-&gt;__pyx_n &gt; 0) {
+      __pyx_v_iter = __pyx_optional_args-&gt;iter;
+      if (__pyx_optional_args-&gt;__pyx_n &gt; 1) {
+        __pyx_v_string = __pyx_optional_args-&gt;string;
+        if (__pyx_optional_args-&gt;__pyx_n &gt; 2) {
+          __pyx_v_print_all = __pyx_optional_args-&gt;print_all;
+        }
+      }
+    }
+  }
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_string);
+/* … */
+  /* function exit code */
+  __pyx_L1_error:;
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_5);
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_9);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("knave.k_map", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_buffer);
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_glyph);
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_lieglyph);
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_string);
+  <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
+  <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
+  return __pyx_r;
+}
+
+/* Python wrapper */
 static PyObject *__pyx_pw_5knave_1k_map(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static char __pyx_doc_5knave_k_map[] = "Calculate iter terms in the binay Look-Knave sequence starting at string.\n    ";
-static PyMethodDef __pyx_mdef_5knave_1k_map = {"k_map", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_5knave_1k_map, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5knave_k_map};
 static PyObject *__pyx_pw_5knave_1k_map(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_v_iter;
   PyObject *__pyx_v_string = 0;
@@ -414,7 +463,7 @@ static PyObject *__pyx_pw_5knave_1k_map(PyObject *__pyx_self, PyObject *__pyx_ar
         }
       }
       if (unlikely(kw_args &gt; 0)) {
-        if (unlikely(<span class='pyx_c_api'>__Pyx_ParseOptionalKeywords</span>(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "k_map") &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 1, __pyx_L3_error)</span>
+        if (unlikely(<span class='pyx_c_api'>__Pyx_ParseOptionalKeywords</span>(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "k_map") &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 5, __pyx_L3_error)</span>
       }
     } else {
       switch (<span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)) {
@@ -429,26 +478,26 @@ static PyObject *__pyx_pw_5knave_1k_map(PyObject *__pyx_self, PyObject *__pyx_ar
       }
     }
     if (values[0]) {
-      __pyx_v_iter = <span class='pyx_c_api'>__Pyx_PyInt_As_int</span>(values[0]); if (unlikely((__pyx_v_iter == (int)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(0, 1, __pyx_L3_error)</span>
+      __pyx_v_iter = <span class='pyx_c_api'>__Pyx_PyInt_As_int</span>(values[0]); if (unlikely((__pyx_v_iter == (int)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(0, 5, __pyx_L3_error)</span>
     } else {
       __pyx_v_iter = ((int)1);
     }
     __pyx_v_string = ((PyObject*)values[1]);
     if (values[2]) {
-      __pyx_v_print_all = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(values[2]); if (unlikely((__pyx_v_print_all == (int)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(0, 1, __pyx_L3_error)</span>
+      __pyx_v_print_all = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(values[2]); if (unlikely((__pyx_v_print_all == (int)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(0, 5, __pyx_L3_error)</span>
     } else {
       __pyx_v_print_all = ((int)1);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("k_map", 0, 0, 3, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 1, __pyx_L3_error)</span>
+  <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("k_map", 0, 0, 3, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(0, 5, __pyx_L3_error)</span>
   __pyx_L3_error:;
   <span class='pyx_c_api'>__Pyx_AddTraceback</span>("knave.k_map", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!<span class='pyx_c_api'>__Pyx_ArgTypeTest</span>(((PyObject *)__pyx_v_string), (&amp;PyString_Type), 1, "string", 1))) <span class='error_goto'>__PYX_ERR(0, 1, __pyx_L1_error)</span>
+  if (unlikely(!<span class='pyx_c_api'>__Pyx_ArgTypeTest</span>(((PyObject *)__pyx_v_string), (&amp;PyString_Type), 1, "string", 1))) <span class='error_goto'>__PYX_ERR(0, 5, __pyx_L1_error)</span>
   __pyx_r = __pyx_pf_5knave_k_map(__pyx_self, __pyx_v_iter, __pyx_v_string, __pyx_v_print_all);
 
   /* function exit code */
@@ -461,197 +510,174 @@ static PyObject *__pyx_pw_5knave_1k_map(PyObject *__pyx_self, PyObject *__pyx_ar
 }
 
 static PyObject *__pyx_pf_5knave_k_map(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_iter, PyObject *__pyx_v_string, int __pyx_v_print_all) {
-  PyObject *__pyx_v_liestring = 0;
-  PyObject *__pyx_v_glyph = 0;
-  int __pyx_v_index;
-  int __pyx_v_start;
-  int __pyx_v_end;
-  int __pyx_v_rlen;
-  CYTHON_UNUSED int __pyx_v_i;
   PyObject *__pyx_r = NULL;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("k_map", 0);
-  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_string);
-/* … */
-  /* function exit code */
-  __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
+  __pyx_t_2.__pyx_n = 3;
+  __pyx_t_2.iter = __pyx_v_iter;
+  __pyx_t_2.string = __pyx_v_string;
+  __pyx_t_2.print_all = __pyx_v_print_all;
+  __pyx_t_1 = __pyx_f_5knave_k_map(0, &amp;__pyx_t_2);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
   goto __pyx_L0;
+
+  /* function exit code */
   __pyx_L1_error:;
-  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_8);
-  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_9);
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_1);
   <span class='pyx_c_api'>__Pyx_AddTraceback</span>("knave.k_map", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_liestring);
-  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_glyph);
-  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_string);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-/* … */
-  __pyx_tuple__3 = <span class='py_c_api'>PyTuple_Pack</span>(12, __pyx_n_s_iter, __pyx_n_s_string, __pyx_n_s_print_all, __pyx_n_s_liestring, __pyx_n_s_outstring, __pyx_n_s_glyph, __pyx_n_s_truedigit, __pyx_n_s_index, __pyx_n_s_start, __pyx_n_s_end, __pyx_n_s_rlen, __pyx_n_s_i);<span class='error_goto'> if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 1, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__3);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__3);
-/* … */
-  __pyx_t_1 = PyCFunction_NewEx(&amp;__pyx_mdef_5knave_1k_map, NULL, __pyx_n_s_knave);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
-  if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_k_map, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 1, __pyx_L1_error)</span>
-  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">02</span>:     <span class="sd">&quot;&quot;&quot;Calculate iter terms in the binay Look-Knave sequence starting at string.</span></pre>
-<pre class="cython line score-0">&#xA0;<span class="">03</span>: <span class="sd">    &quot;&quot;&quot;</span></pre>
-<pre class="cython line score-0">&#xA0;<span class="">04</span>:     <span class="k">cdef</span> <span class="kt">str</span> <span class="nf">liestring</span><span class="p">,</span> <span class="nf">outstring</span><span class="p">,</span> <span class="nf">glyph</span></pre>
-<pre class="cython line score-0">&#xA0;<span class="">05</span>:     <span class="k">cdef</span> <span class="kt">int</span> <span class="nf">truedigit</span><span class="p">,</span> <span class="nf">index</span><span class="p">,</span> <span class="nf">start</span><span class="p">,</span> <span class="nf">end</span><span class="p">,</span> <span class="nf">rlen</span></pre>
-<pre class="cython line score-0">&#xA0;<span class="">06</span>: </pre>
-<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">07</span>:     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">iter</span><span class="p">):</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">06</span>:     <span class="sd">&quot;&quot;&quot;Calculate iter terms in the binay Look-Knave sequence starting at string.</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">07</span>: <span class="sd">    &quot;&quot;&quot;</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">08</span>:     <span class="k">cdef</span> <span class="kt">str</span> <span class="nf">buffer</span><span class="p">,</span> <span class="nf">outstring</span><span class="p">,</span> <span class="nf">glyph</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">09</span>:     <span class="k">cdef</span> <span class="kt">int</span> <span class="nf">truedigit</span><span class="p">,</span> <span class="nf">index</span><span class="p">,</span> <span class="nf">start</span><span class="p">,</span> <span class="nf">end</span><span class="p">,</span> <span class="nf">rlen</span><span class="p">,</span> <span class="nf">blen</span><span class="p">,</span> <span class="nf">i</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">10</span>:     <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">percent</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">11</span>: </pre>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">12</span>:     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">iter</span><span class="p">):</span></pre>
 <pre class='cython code score-0 '>  __pyx_t_1 = __pyx_v_iter;
   __pyx_t_2 = __pyx_t_1;
   for (__pyx_t_3 = 0; __pyx_t_3 &lt; __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">08</span>:         <span class="k">if</span> <span class="n">print_all</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">13</span>:         <span class="k">if</span> <span class="n">print_all</span><span class="p">:</span></pre>
 <pre class='cython code score-0 '>    __pyx_t_4 = (__pyx_v_print_all != 0);
     if (__pyx_t_4) {
 /* … */
+      goto __pyx_L5;
     }
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">09</span>:             <span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">)</span></pre>
-<pre class='cython code score-2 '>      if (<span class='pyx_c_api'>__Pyx_PrintOne</span>(0, __pyx_v_string) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 9, __pyx_L1_error)</span>
-</pre><pre class="cython line score-0">&#xA0;<span class="">10</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">11</span>:         <span class="n">liestring</span> <span class="o">=</span> <span class="s">&#39;&#39;</span></pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">14</span>:             <span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">)</span></pre>
+<pre class='cython code score-2 '>      if (<span class='pyx_c_api'>__Pyx_PrintOne</span>(0, __pyx_v_string) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 14, __pyx_L1_error)</span>
+</pre><pre class="cython line score-0">&#xA0;<span class="">15</span>:         <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">16</span>:             <span class="n">percent</span> <span class="o">=</span> <span class="n">i</span><span class="o">/</span><span class="nb">iter</span></pre>
+<pre class='cython code score-10 '>    /*else*/ {
+      if (unlikely(__pyx_v_iter == 0)) {
+        <span class='py_c_api'>PyErr_SetString</span>(PyExc_ZeroDivisionError, "integer division or modulo by zero");
+        <span class='error_goto'>__PYX_ERR(0, 16, __pyx_L1_error)</span>
+      }
+      else if (sizeof(int) == sizeof(long) &amp;&amp; (!(((int)-1) &gt; 0)) &amp;&amp; unlikely(__pyx_v_iter == (int)-1)  &amp;&amp; unlikely(UNARY_NEG_WOULD_OVERFLOW(__pyx_v_i))) {
+        <span class='py_c_api'>PyErr_SetString</span>(PyExc_OverflowError, "value too large to perform division");
+        <span class='error_goto'>__PYX_ERR(0, 16, __pyx_L1_error)</span>
+      }
+      __pyx_v_percent = __Pyx_div_int(__pyx_v_i, __pyx_v_iter);
+</pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">17</span>:             <span class="k">print</span><span class="p">(</span><span class="n">percent</span><span class="p">)</span></pre>
+<pre class='cython code score-8 '>      __pyx_t_5 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_percent);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 17, __pyx_L1_error)</span>
+      <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
+      if (<span class='pyx_c_api'>__Pyx_PrintOne</span>(0, __pyx_t_5) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 17, __pyx_L1_error)</span>
+      <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
+    }
+    __pyx_L5:;
+</pre><pre class="cython line score-0">&#xA0;<span class="">18</span>: </pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">19</span>:         <span class="nb">buffer</span> <span class="o">=</span> <span class="n">string</span></pre>
+<pre class='cython code score-2 '>    <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_string);
+    <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_buffer, __pyx_v_string);
+</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">20</span>:         <span class="n">blen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">buffer</span><span class="p">)</span></pre>
+<pre class='cython code score-5 '>    __pyx_t_6 = <span class='py_c_api'>PyObject_Length</span>(__pyx_v_buffer);<span class='error_goto'> if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 20, __pyx_L1_error)</span>
+    __pyx_v_blen = __pyx_t_6;
+</pre><pre class="cython line score-0">&#xA0;<span class="">21</span>: </pre>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">22</span>:         <span class="n">end</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1</span></pre>
+<pre class='cython code score-0 '>    __pyx_v_end = -1;
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">23</span>:         <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span></pre>
 <pre class='cython code score-2 '>    <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_s_);
-    <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_liestring, __pyx_kp_s_);
-</pre><pre class="cython line score-0">&#xA0;<span class="">12</span>: </pre>
-<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">13</span>:         <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)):</span>             <span class="c"># invert bits of string</span></pre>
-<pre class='cython code score-5 '>    __pyx_t_5 = <span class='py_c_api'>PyObject_Length</span>(__pyx_v_string);<span class='error_goto'> if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 13, __pyx_L1_error)</span>
-    __pyx_t_6 = __pyx_t_5;
-    for (__pyx_t_7 = 0; __pyx_t_7 &lt; __pyx_t_6; __pyx_t_7+=1) {
-      __pyx_v_index = __pyx_t_7;
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">14</span>:             <span class="k">if</span> <span class="n">string</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;0&#39;</span><span class="p">:</span></pre>
-<pre class='cython code score-5 '>      __pyx_t_8 = <span class='pyx_c_api'>__Pyx_GetItemInt</span>(__pyx_v_string, __pyx_v_index, int, 1, __Pyx_PyInt_From_int, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 14, __pyx_L1_error)</span>
-      <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_8);
-      __pyx_t_4 = (<span class='pyx_c_api'>__Pyx_PyString_Equals</span>(__pyx_t_8, __pyx_kp_s_0, Py_EQ)); if (unlikely(__pyx_t_4 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 14, __pyx_L1_error)</span>
-      <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
-      if (__pyx_t_4) {
+    <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_string, __pyx_kp_s_);
+</pre><pre class="cython line score-0">&#xA0;<span class="">24</span>: </pre>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">25</span>:         <span class="k">while</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="n">blen</span> <span class="o">-</span> <span class="mf">1</span><span class="p">:</span>              <span class="c"># describe buffer</span></pre>
+<pre class='cython code score-0 '>    while (1) {
+      __pyx_t_4 = ((__pyx_v_end &lt; (__pyx_v_blen - 1)) != 0);
+      if (!__pyx_t_4) break;
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">26</span>:             <span class="n">start</span> <span class="o">=</span> <span class="n">end</span> <span class="o">+</span> <span class="mf">1</span>                       <span class="c"># move window</span></pre>
+<pre class='cython code score-0 '>      __pyx_v_start = (__pyx_v_end + 1);
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">27</span>:             <span class="n">end</span> <span class="o">=</span> <span class="n">start</span></pre>
+<pre class='cython code score-0 '>      __pyx_v_end = __pyx_v_start;
+</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">28</span>:             <span class="n">glyph</span> <span class="o">=</span> <span class="nb">buffer</span><span class="p">[</span><span class="n">start</span><span class="p">]</span></pre>
+<pre class='cython code score-13 '>      __pyx_t_5 = <span class='pyx_c_api'>__Pyx_GetItemInt</span>(__pyx_v_buffer, __pyx_v_start, int, 1, __Pyx_PyInt_From_int, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 28, __pyx_L1_error)</span>
+      <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
+      if (!(likely(<span class='py_c_api'>PyString_CheckExact</span>(__pyx_t_5))||((__pyx_t_5) == Py_None)||(<span class='py_c_api'>PyErr_Format</span>(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)-&gt;tp_name), 0))) <span class='error_goto'>__PYX_ERR(0, 28, __pyx_L1_error)</span>
+      <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_glyph, ((PyObject*)__pyx_t_5));
+      __pyx_t_5 = 0;
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">29</span>:             <span class="k">if</span> <span class="n">glyph</span> <span class="o">==</span> <span class="s">&#39;0&#39;</span><span class="p">:</span></pre>
+<pre class='cython code score-2 '>      __pyx_t_4 = (<span class='pyx_c_api'>__Pyx_PyString_Equals</span>(__pyx_v_glyph, __pyx_kp_s_0, Py_EQ)); if (unlikely(__pyx_t_4 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 29, __pyx_L1_error)</span>
+      __pyx_t_7 = (__pyx_t_4 != 0);
+      if (__pyx_t_7) {
 /* … */
         goto __pyx_L8;
       }
-</pre><pre class="cython line score-23" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">15</span>:                 <span class="n">liestring</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">liestring</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">])</span></pre>
-<pre class='cython code score-23 '>        __pyx_t_8 = <span class='py_c_api'>PyList_New</span>(2);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 15, __pyx_L1_error)</span>
-        <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_8);
-        <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_liestring);
-        <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_v_liestring);
-        <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_8, 0, __pyx_v_liestring);
-        <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_s_1);
-        <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_s_1);
-        <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_8, 1, __pyx_kp_s_1);
-        __pyx_t_9 = <span class='pyx_c_api'>__Pyx_PyString_Join</span>(__pyx_kp_s_, __pyx_t_8);<span class='error_goto'> if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 15, __pyx_L1_error)</span>
-        <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_9);
-        <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
-        if (!(likely(<span class='py_c_api'>PyString_CheckExact</span>(__pyx_t_9))||((__pyx_t_9) == Py_None)||(<span class='py_c_api'>PyErr_Format</span>(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_9)-&gt;tp_name), 0))) <span class='error_goto'>__PYX_ERR(0, 15, __pyx_L1_error)</span>
-        <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_liestring, ((PyObject*)__pyx_t_9));
-        __pyx_t_9 = 0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">16</span>:             <span class="k">else</span><span class="p">:</span></pre>
-<pre class="cython line score-23" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">17</span>:                 <span class="n">liestring</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">liestring</span><span class="p">,</span> <span class="s">&#39;0&#39;</span><span class="p">])</span></pre>
-<pre class='cython code score-23 '>      /*else*/ {
-        __pyx_t_9 = <span class='py_c_api'>PyList_New</span>(2);<span class='error_goto'> if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 17, __pyx_L1_error)</span>
-        <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_9);
-        <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_liestring);
-        <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_v_liestring);
-        <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_9, 0, __pyx_v_liestring);
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">30</span>:                 <span class="n">lieglyph</span> <span class="o">=</span> <span class="s">&#39;1&#39;</span></pre>
+<pre class='cython code score-2 '>        <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_s_1);
+        <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_lieglyph, __pyx_kp_s_1);
+</pre><pre class="cython line score-0">&#xA0;<span class="">31</span>:             <span class="k">else</span><span class="p">:</span></pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">32</span>:                 <span class="n">lieglyph</span> <span class="o">=</span> <span class="s">&#39;0&#39;</span></pre>
+<pre class='cython code score-2 '>      /*else*/ {
         <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_s_0);
-        <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_s_0);
-        <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_9, 1, __pyx_kp_s_0);
-        __pyx_t_8 = <span class='pyx_c_api'>__Pyx_PyString_Join</span>(__pyx_kp_s_, __pyx_t_9);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 17, __pyx_L1_error)</span>
-        <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_8);
-        <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_9); __pyx_t_9 = 0;
-        if (!(likely(<span class='py_c_api'>PyString_CheckExact</span>(__pyx_t_8))||((__pyx_t_8) == Py_None)||(<span class='py_c_api'>PyErr_Format</span>(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_8)-&gt;tp_name), 0))) <span class='error_goto'>__PYX_ERR(0, 17, __pyx_L1_error)</span>
-        <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_liestring, ((PyObject*)__pyx_t_8));
-        __pyx_t_8 = 0;
+        <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_lieglyph, __pyx_kp_s_0);
       }
       __pyx_L8:;
-    }
-</pre><pre class="cython line score-0">&#xA0;<span class="">18</span>: </pre>
-<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">19</span>:         <span class="n">end</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1</span></pre>
-<pre class='cython code score-0 '>    __pyx_v_end = -1;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">20</span>:         <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span></pre>
-<pre class='cython code score-2 '>    <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_s_);
-    <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_string, __pyx_kp_s_);
-</pre><pre class="cython line score-0">&#xA0;<span class="">21</span>: </pre>
-<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">22</span>:         <span class="k">while</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">liestring</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1</span><span class="p">:</span>              <span class="c"># describe liestring</span></pre>
-<pre class='cython code score-5 '>    while (1) {
-      __pyx_t_5 = <span class='py_c_api'>PyObject_Length</span>(__pyx_v_liestring);<span class='error_goto'> if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 22, __pyx_L1_error)</span>
-      __pyx_t_4 = ((__pyx_v_end &lt; (__pyx_t_5 - 1)) != 0);
-      if (!__pyx_t_4) break;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">23</span>:             <span class="n">start</span> <span class="o">=</span> <span class="n">end</span> <span class="o">+</span> <span class="mf">1</span>                          <span class="c"># move window</span></pre>
-<pre class='cython code score-0 '>      __pyx_v_start = (__pyx_v_end + 1);
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">24</span>:             <span class="n">end</span> <span class="o">=</span> <span class="n">start</span></pre>
-<pre class='cython code score-0 '>      __pyx_v_end = __pyx_v_start;
-</pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">25</span>:             <span class="n">glyph</span> <span class="o">=</span> <span class="n">liestring</span><span class="p">[</span><span class="n">start</span><span class="p">]</span></pre>
-<pre class='cython code score-13 '>      __pyx_t_8 = <span class='pyx_c_api'>__Pyx_GetItemInt</span>(__pyx_v_liestring, __pyx_v_start, int, 1, __Pyx_PyInt_From_int, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 25, __pyx_L1_error)</span>
-      <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_8);
-      if (!(likely(<span class='py_c_api'>PyString_CheckExact</span>(__pyx_t_8))||((__pyx_t_8) == Py_None)||(<span class='py_c_api'>PyErr_Format</span>(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_8)-&gt;tp_name), 0))) <span class='error_goto'>__PYX_ERR(0, 25, __pyx_L1_error)</span>
-      <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v_glyph, ((PyObject*)__pyx_t_8));
-      __pyx_t_8 = 0;
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">26</span>:             <span class="k">if</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">liestring</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2</span><span class="p">:</span></pre>
-<pre class='cython code score-5 '>      __pyx_t_5 = <span class='py_c_api'>PyObject_Length</span>(__pyx_v_liestring);<span class='error_goto'> if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 26, __pyx_L1_error)</span>
-      __pyx_t_4 = ((__pyx_v_end &lt; (__pyx_t_5 - 2)) != 0);
-      if (__pyx_t_4) {
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">33</span>:             <span class="k">if</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="n">blen</span> <span class="o">-</span> <span class="mf">2</span><span class="p">:</span></pre>
+<pre class='cython code score-0 '>      __pyx_t_7 = ((__pyx_v_end &lt; (__pyx_v_blen - 2)) != 0);
+      if (__pyx_t_7) {
 /* … */
       }
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">27</span>:                 <span class="k">while</span> <span class="n">liestring</span><span class="p">[</span><span class="n">end</span> <span class="o">+</span> <span class="mf">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">glyph</span><span class="p">:</span></pre>
+</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">34</span>:                 <span class="k">while</span> <span class="nb">buffer</span><span class="p">[</span><span class="n">end</span> <span class="o">+</span> <span class="mf">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">glyph</span><span class="p">:</span></pre>
 <pre class='cython code score-5 '>        while (1) {
-          __pyx_t_10 = (__pyx_v_end + 1);
-          __pyx_t_8 = <span class='pyx_c_api'>__Pyx_GetItemInt</span>(__pyx_v_liestring, __pyx_t_10, long, 1, __Pyx_PyInt_From_long, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 27, __pyx_L1_error)</span>
-          <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_8);
-          __pyx_t_4 = (<span class='pyx_c_api'>__Pyx_PyString_Equals</span>(__pyx_t_8, __pyx_v_glyph, Py_EQ)); if (unlikely(__pyx_t_4 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 27, __pyx_L1_error)</span>
-          <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
-          if (!__pyx_t_4) break;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">28</span>:                     <span class="n">end</span> <span class="o">+=</span> <span class="mf">1</span></pre>
+          __pyx_t_8 = (__pyx_v_end + 1);
+          __pyx_t_5 = <span class='pyx_c_api'>__Pyx_GetItemInt</span>(__pyx_v_buffer, __pyx_t_8, long, 1, __Pyx_PyInt_From_long, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 34, __pyx_L1_error)</span>
+          <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
+          __pyx_t_7 = (<span class='pyx_c_api'>__Pyx_PyString_Equals</span>(__pyx_t_5, __pyx_v_glyph, Py_EQ)); if (unlikely(__pyx_t_7 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 34, __pyx_L1_error)</span>
+          <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
+          if (!__pyx_t_7) break;
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">35</span>:                     <span class="n">end</span> <span class="o">+=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-0 '>          __pyx_v_end = (__pyx_v_end + 1);
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">29</span>:                     <span class="k">if</span> <span class="n">end</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">liestring</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1</span><span class="p">:</span></pre>
-<pre class='cython code score-5 '>          __pyx_t_5 = <span class='py_c_api'>PyObject_Length</span>(__pyx_v_liestring);<span class='error_goto'> if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 29, __pyx_L1_error)</span>
-          __pyx_t_4 = ((__pyx_v_end == (__pyx_t_5 - 1)) != 0);
-          if (__pyx_t_4) {
+</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">36</span>:                     <span class="k">if</span> <span class="n">end</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="nb">buffer</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1</span><span class="p">:</span></pre>
+<pre class='cython code score-5 '>          __pyx_t_6 = <span class='py_c_api'>PyObject_Length</span>(__pyx_v_buffer);<span class='error_goto'> if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 36, __pyx_L1_error)</span>
+          __pyx_t_7 = ((__pyx_v_end == (__pyx_t_6 - 1)) != 0);
+          if (__pyx_t_7) {
 /* … */
           }
         }
-        __pyx_L13_break:;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">30</span>:                         <span class="k">break</span></pre>
-<pre class='cython code score-0 '>            goto __pyx_L13_break;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">31</span>:             <span class="n">rlen</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span> <span class="mf">1</span></pre>
+        __pyx_L11_break:;
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">37</span>:                         <span class="k">break</span></pre>
+<pre class='cython code score-0 '>            goto __pyx_L11_break;
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">38</span>:             <span class="n">rlen</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span> <span class="mf">1</span></pre>
 <pre class='cython code score-0 '>      __pyx_v_rlen = ((__pyx_v_end - __pyx_v_start) + 1);
-</pre><pre class="cython line score-40" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">32</span>:             <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">string</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">rlen</span><span class="p">)[</span><span class="mf">2</span><span class="p">:]),</span> <span class="n">glyph</span><span class="p">])</span></pre>
-<pre class='cython code score-40 '>      __pyx_t_8 = <span class='pyx_c_api'>__Pyx_PyInt_From_int</span>(__pyx_v_rlen);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 32, __pyx_L1_error)</span>
-      <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_8);
-      __pyx_t_9 = <span class='pyx_c_api'>__Pyx_PyObject_CallOneArg</span>(__pyx_builtin_bin, __pyx_t_8);<span class='error_goto'> if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 32, __pyx_L1_error)</span>
+</pre><pre class="cython line score-35" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">39</span>:             <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">string</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">rlen</span><span class="p">)[</span><span class="mf">2</span><span class="p">:]),</span> <span class="n">lieglyph</span><span class="p">])</span></pre>
+<pre class='cython code score-35 '>      __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyInt_From_int</span>(__pyx_v_rlen);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)</span>
+      <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
+      __pyx_t_9 = <span class='pyx_c_api'>__Pyx_PyObject_CallOneArg</span>(__pyx_builtin_bin, __pyx_t_5);<span class='error_goto'> if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 39, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_9);
-      <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_9, 2, 0, NULL, NULL, &amp;__pyx_slice__2, 1, 0, 1);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 32, __pyx_L1_error)</span>
-      <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_8);
+      <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_9, 2, 0, NULL, NULL, &amp;__pyx_slice__2, 1, 0, 1);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)</span>
+      <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_t_9 = <span class='pyx_c_api'>__Pyx_PyObject_CallOneArg</span>(((PyObject *)(&amp;PyString_Type)), __pyx_t_8);<span class='error_goto'> if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 32, __pyx_L1_error)</span>
+      __pyx_t_9 = <span class='pyx_c_api'>__Pyx_PyObject_CallOneArg</span>(((PyObject *)(&amp;PyString_Type)), __pyx_t_5);<span class='error_goto'> if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 39, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_9);
-      <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = <span class='py_c_api'>PyList_New</span>(3);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 32, __pyx_L1_error)</span>
-      <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_8);
+      <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = <span class='py_c_api'>PyList_New</span>(3);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)</span>
+      <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
       <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_string);
       <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_v_string);
-      <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_8, 0, __pyx_v_string);
+      <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_5, 0, __pyx_v_string);
       <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_9);
-      <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_8, 1, __pyx_t_9);
-      <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_glyph);
-      <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_v_glyph);
-      <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_8, 2, __pyx_v_glyph);
+      <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_5, 1, __pyx_t_9);
+      <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_lieglyph);
+      <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_v_lieglyph);
+      <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_5, 2, __pyx_v_lieglyph);
       __pyx_t_9 = 0;
-      __pyx_t_9 = <span class='pyx_c_api'>__Pyx_PyString_Join</span>(__pyx_kp_s_, __pyx_t_8);<span class='error_goto'> if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 32, __pyx_L1_error)</span>
+      __pyx_t_9 = <span class='pyx_c_api'>__Pyx_PyString_Join</span>(__pyx_kp_s_, __pyx_t_5);<span class='error_goto'> if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 39, __pyx_L1_error)</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_9);
-      <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
-      if (!(likely(<span class='py_c_api'>PyString_CheckExact</span>(__pyx_t_9))||((__pyx_t_9) == Py_None)||(<span class='py_c_api'>PyErr_Format</span>(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_9)-&gt;tp_name), 0))) <span class='error_goto'>__PYX_ERR(0, 32, __pyx_L1_error)</span>
+      <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
+      if (!(likely(<span class='py_c_api'>PyString_CheckExact</span>(__pyx_t_9))||((__pyx_t_9) == Py_None)||(<span class='py_c_api'>PyErr_Format</span>(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_9)-&gt;tp_name), 0))) <span class='error_goto'>__PYX_ERR(0, 39, __pyx_L1_error)</span>
       <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_string, ((PyObject*)__pyx_t_9));
       __pyx_t_9 = 0;
     }
   }
-/* … */
-  __pyx_slice__2 = <span class='py_c_api'>PySlice_New</span>(__pyx_int_2, Py_None, Py_None);<span class='error_goto'> if (unlikely(!__pyx_slice__2)) __PYX_ERR(0, 32, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_slice__2);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_slice__2);
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">40</span>:     <span class="k">return</span><span class="p">(</span><span class="n">string</span><span class="p">)</span></pre>
+<pre class='cython code score-2 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_string);
+  __pyx_r = __pyx_v_string;
+  goto __pyx_L0;
 </pre></div></body></html>
