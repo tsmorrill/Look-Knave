@@ -1,36 +1,32 @@
-def k_map(iter=1, start=1, print_all=False):
-    """Calculate iter terms in the binay Look-Knave sequence starting at start.
+def k_map(int iter=1, str string='1', bint print_all=True):
+    """Calculate iter terms in the binay Look-Knave sequence starting at string.
     """
-    def iteration(truestring):
-        cdef str liestring = ''
-        cdef str outstring = ''
+    cdef str liestring, outstring, glyph
+    cdef int truedigit, index, start, end, rlen
 
-        if print_all:
-            print(truestring)
-
-        cdef int truedigit, index
-
-        for index in range(len(truestring)):
-            truedigit = int(truestring[index])
-            if truedigit in range(2):
-                liedigit = 1 - truedigit
-                liestring = ''.join([liestring, str(liedigit)])
-
-        cdef int i
-        cdef str glyph
-        while liestring:
-            i, glyph = 0, liestring[0]
-            while liestring:
-                if liestring[0] == glyph:
-                    i += 1
-                    liestring = liestring[1:]
-                else:
-                    break
-            outstring = ''.join([outstring, str(bin(i)[2:]), glyph])
-        return(outstring)
-
-    cdef str truestring = str(start)
     for i in range(iter):
-        truestring = iteration(truestring)
+        if print_all:
+            print(string)
 
-    return int(truestring)
+        liestring = ''
+
+        for index in range(len(string)):             # invert bits of string
+            if string[index] == '0':
+                liestring = ''.join([liestring, '1'])
+            else:
+                liestring = ''.join([liestring, '0'])
+
+        end = -1
+        string = ''
+
+        while end < len(liestring) - 1:              # describe liestring
+            start = end + 1                          # move window
+            end = start
+            glyph = liestring[start]
+            if end < len(liestring) - 2:
+                while liestring[end + 1] == glyph:
+                    end += 1
+                    if end == len(liestring) - 1:
+                        break
+            rlen = end - start + 1
+            string = ''.join([string, str(bin(rlen)[2:]), glyph])
