@@ -14,7 +14,7 @@ def k_map(iter=1, start=1, print_all=False):
             truedigit = int(truestring[index])
             if truedigit in range(2):
                 liedigit = 1 - truedigit
-                liestring += str(liedigit)
+                liestring = ''.join([liestring, str(liedigit)])
 
         cdef int i
         cdef str glyph
@@ -26,8 +26,7 @@ def k_map(iter=1, start=1, print_all=False):
                     liestring = liestring[1:]
                 else:
                     break
-            outstring += str(bin(i)[2:])
-            outstring += glyph
+            outstring = ''.join([outstring, str(bin(i)[2:]), glyph])
         return(outstring)
 
     cdef str truestring = str(start)

@@ -957,6 +957,24 @@ static CYTHON_INLINE int __Pyx_PySequence_ContainsTF(PyObject* item, PyObject* s
     return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
 }
 
+/* StringJoin.proto */
+#if PY_MAJOR_VERSION < 3
+#define __Pyx_PyString_Join __Pyx_PyBytes_Join
+#define __Pyx_PyBaseString_Join(s, v) (PyUnicode_CheckExact(s) ? PyUnicode_Join(s, v) : __Pyx_PyBytes_Join(s, v))
+#else
+#define __Pyx_PyString_Join PyUnicode_Join
+#define __Pyx_PyBaseString_Join PyUnicode_Join
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+    #if PY_MAJOR_VERSION < 3
+    #define __Pyx_PyBytes_Join _PyString_Join
+    #else
+    #define __Pyx_PyBytes_Join _PyBytes_Join
+    #endif
+#else
+static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values);
+#endif
+
 /* PyCFunctionFastCall.proto */
 #if CYTHON_FAST_PYCCALL
 static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
@@ -1226,6 +1244,7 @@ static const char __pyx_k_bin[] = "bin";
 static const char __pyx_k_end[] = "end";
 static const char __pyx_k_file[] = "file";
 static const char __pyx_k_iter[] = "iter";
+static const char __pyx_k_join[] = "join";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_test[] = "__test__";
@@ -1256,6 +1275,7 @@ static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_index;
 static PyObject *__pyx_n_s_iter;
 static PyObject *__pyx_n_s_iteration;
+static PyObject *__pyx_n_s_join;
 static PyObject *__pyx_n_s_k_map;
 static PyObject *__pyx_n_s_k_map_locals_iteration;
 static PyObject *__pyx_n_s_knave;
@@ -1404,7 +1424,7 @@ static PyObject *__pyx_pf_5knave_5k_map_iteration(PyObject *__pyx_self, PyObject
   PyObject *__pyx_v_outstring = 0;
   int __pyx_v_truedigit;
   int __pyx_v_index;
-  PyObject *__pyx_v_liedigit = NULL;
+  long __pyx_v_liedigit;
   int __pyx_v_i;
   PyObject *__pyx_v_glyph = 0;
   PyObject *__pyx_r = NULL;
@@ -1503,7 +1523,7 @@ static PyObject *__pyx_pf_5knave_5k_map_iteration(PyObject *__pyx_self, PyObject
  *             truedigit = int(truestring[index])
  *             if truedigit in range(2):             # <<<<<<<<<<<<<<
  *                 liedigit = 1 - truedigit
- *                 liestring += str(liedigit)
+ *                 liestring = ''.join([liestring, str(liedigit)])
  */
     __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_truedigit); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
@@ -1519,24 +1539,32 @@ static PyObject *__pyx_pf_5knave_5k_map_iteration(PyObject *__pyx_self, PyObject
  *             truedigit = int(truestring[index])
  *             if truedigit in range(2):
  *                 liedigit = 1 - truedigit             # <<<<<<<<<<<<<<
- *                 liestring += str(liedigit)
+ *                 liestring = ''.join([liestring, str(liedigit)])
  * 
  */
-      __pyx_t_5 = __Pyx_PyInt_From_long((1 - __pyx_v_truedigit)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 16, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_XDECREF_SET(__pyx_v_liedigit, __pyx_t_5);
-      __pyx_t_5 = 0;
+      __pyx_v_liedigit = (1 - __pyx_v_truedigit);
 
       /* "knave.pyx":17
  *             if truedigit in range(2):
  *                 liedigit = 1 - truedigit
- *                 liestring += str(liedigit)             # <<<<<<<<<<<<<<
+ *                 liestring = ''.join([liestring, str(liedigit)])             # <<<<<<<<<<<<<<
  * 
  *         cdef int i
  */
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_liedigit); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 17, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyInt_From_long(__pyx_v_liedigit); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 17, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_liestring, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 17, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 17, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = PyList_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 17, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_INCREF(__pyx_v_liestring);
+      __Pyx_GIVEREF(__pyx_v_liestring);
+      PyList_SET_ITEM(__pyx_t_5, 0, __pyx_v_liestring);
+      __Pyx_GIVEREF(__pyx_t_6);
+      PyList_SET_ITEM(__pyx_t_5, 1, __pyx_t_6);
+      __pyx_t_6 = 0;
+      __pyx_t_6 = __Pyx_PyString_Join(__pyx_kp_s_, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 17, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 17, __pyx_L1_error)
@@ -1548,7 +1576,7 @@ static PyObject *__pyx_pf_5knave_5k_map_iteration(PyObject *__pyx_self, PyObject
  *             truedigit = int(truestring[index])
  *             if truedigit in range(2):             # <<<<<<<<<<<<<<
  *                 liedigit = 1 - truedigit
- *                 liestring += str(liedigit)
+ *                 liestring = ''.join([liestring, str(liedigit)])
  */
     }
   }
@@ -1642,8 +1670,8 @@ static PyObject *__pyx_pf_5knave_5k_map_iteration(PyObject *__pyx_self, PyObject
  *                     liestring = liestring[1:]
  *                 else:
  *                     break             # <<<<<<<<<<<<<<
- *             outstring += str(bin(i)[2:])
- *             outstring += glyph
+ *             outstring = ''.join([outstring, str(bin(i)[2:]), glyph])
+ *         return(outstring)
  */
       /*else*/ {
         goto __pyx_L10_break;
@@ -1655,9 +1683,9 @@ static PyObject *__pyx_pf_5knave_5k_map_iteration(PyObject *__pyx_self, PyObject
     /* "knave.pyx":29
  *                 else:
  *                     break
- *             outstring += str(bin(i)[2:])             # <<<<<<<<<<<<<<
- *             outstring += glyph
+ *             outstring = ''.join([outstring, str(bin(i)[2:]), glyph])             # <<<<<<<<<<<<<<
  *         return(outstring)
+ * 
  */
     __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 29, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
@@ -1670,29 +1698,28 @@ static PyObject *__pyx_pf_5knave_5k_map_iteration(PyObject *__pyx_self, PyObject
     __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 29, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_outstring, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 29, __pyx_L1_error)
+    __pyx_t_6 = PyList_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 29, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 29, __pyx_L1_error)
-    __Pyx_DECREF_SET(__pyx_v_outstring, ((PyObject*)__pyx_t_6));
-    __pyx_t_6 = 0;
-
-    /* "knave.pyx":30
- *                     break
- *             outstring += str(bin(i)[2:])
- *             outstring += glyph             # <<<<<<<<<<<<<<
- *         return(outstring)
- * 
- */
-    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_outstring, __pyx_v_glyph); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF_SET(__pyx_v_outstring, ((PyObject*)__pyx_t_6));
-    __pyx_t_6 = 0;
+    __Pyx_INCREF(__pyx_v_outstring);
+    __Pyx_GIVEREF(__pyx_v_outstring);
+    PyList_SET_ITEM(__pyx_t_6, 0, __pyx_v_outstring);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyList_SET_ITEM(__pyx_t_6, 1, __pyx_t_5);
+    __Pyx_INCREF(__pyx_v_glyph);
+    __Pyx_GIVEREF(__pyx_v_glyph);
+    PyList_SET_ITEM(__pyx_t_6, 2, __pyx_v_glyph);
+    __pyx_t_5 = 0;
+    __pyx_t_5 = __Pyx_PyString_Join(__pyx_kp_s_, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 29, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 29, __pyx_L1_error)
+    __Pyx_DECREF_SET(__pyx_v_outstring, ((PyObject*)__pyx_t_5));
+    __pyx_t_5 = 0;
   }
 
-  /* "knave.pyx":31
- *             outstring += str(bin(i)[2:])
- *             outstring += glyph
+  /* "knave.pyx":30
+ *                     break
+ *             outstring = ''.join([outstring, str(bin(i)[2:]), glyph])
  *         return(outstring)             # <<<<<<<<<<<<<<
  * 
  *     cdef str truestring = str(start)
@@ -1719,7 +1746,6 @@ static PyObject *__pyx_pf_5knave_5k_map_iteration(PyObject *__pyx_self, PyObject
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_liestring);
   __Pyx_XDECREF(__pyx_v_outstring);
-  __Pyx_XDECREF(__pyx_v_liedigit);
   __Pyx_XDECREF(__pyx_v_glyph);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -1768,35 +1794,35 @@ static PyObject *__pyx_pf_5knave_k_map(CYTHON_UNUSED PyObject *__pyx_self, PyObj
   __pyx_v_iteration = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "knave.pyx":33
+  /* "knave.pyx":32
  *         return(outstring)
  * 
  *     cdef str truestring = str(start)             # <<<<<<<<<<<<<<
  *     for i in range(iter):
  *         truestring = iteration(truestring)
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 33, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 32, __pyx_L1_error)
   __pyx_v_truestring = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "knave.pyx":34
+  /* "knave.pyx":33
  * 
  *     cdef str truestring = str(start)
  *     for i in range(iter):             # <<<<<<<<<<<<<<
  *         truestring = iteration(truestring)
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_v_iter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_v_iter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 34, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 33, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -1804,17 +1830,17 @@ static PyObject *__pyx_pf_5knave_k_map(CYTHON_UNUSED PyObject *__pyx_self, PyObj
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 34, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 33, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 34, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 33, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -1824,7 +1850,7 @@ static PyObject *__pyx_pf_5knave_k_map(CYTHON_UNUSED PyObject *__pyx_self, PyObj
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 34, __pyx_L1_error)
+          else __PYX_ERR(0, 33, __pyx_L1_error)
         }
         break;
       }
@@ -1833,20 +1859,20 @@ static PyObject *__pyx_pf_5knave_k_map(CYTHON_UNUSED PyObject *__pyx_self, PyObj
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "knave.pyx":35
+    /* "knave.pyx":34
  *     cdef str truestring = str(start)
  *     for i in range(iter):
  *         truestring = iteration(truestring)             # <<<<<<<<<<<<<<
  * 
  *     return int(truestring)
  */
-    __pyx_t_1 = __pyx_pf_5knave_5k_map_iteration(__pyx_v_iteration, __pyx_v_truestring); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+    __pyx_t_1 = __pyx_pf_5knave_5k_map_iteration(__pyx_v_iteration, __pyx_v_truestring); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 35, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 34, __pyx_L1_error)
     __Pyx_DECREF_SET(__pyx_v_truestring, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "knave.pyx":34
+    /* "knave.pyx":33
  * 
  *     cdef str truestring = str(start)
  *     for i in range(iter):             # <<<<<<<<<<<<<<
@@ -1856,13 +1882,13 @@ static PyObject *__pyx_pf_5knave_k_map(CYTHON_UNUSED PyObject *__pyx_self, PyObj
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "knave.pyx":37
+  /* "knave.pyx":36
  *         truestring = iteration(truestring)
  * 
  *     return int(truestring)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_v_truestring); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_v_truestring); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -2053,6 +2079,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_index, __pyx_k_index, sizeof(__pyx_k_index), 0, 0, 1, 1},
   {&__pyx_n_s_iter, __pyx_k_iter, sizeof(__pyx_k_iter), 0, 0, 1, 1},
   {&__pyx_n_s_iteration, __pyx_k_iteration, sizeof(__pyx_k_iteration), 0, 0, 1, 1},
+  {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
   {&__pyx_n_s_k_map, __pyx_k_k_map, sizeof(__pyx_k_k_map), 0, 0, 1, 1},
   {&__pyx_n_s_k_map_locals_iteration, __pyx_k_k_map_locals_iteration, sizeof(__pyx_k_k_map_locals_iteration), 0, 0, 1, 1},
   {&__pyx_n_s_knave, __pyx_k_knave, sizeof(__pyx_k_knave), 0, 0, 1, 1},
@@ -2072,7 +2099,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 33, __pyx_L1_error)
   __pyx_builtin_bin = __Pyx_GetBuiltinName(__pyx_n_s_bin); if (!__pyx_builtin_bin) __PYX_ERR(0, 29, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -2088,7 +2115,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *             truedigit = int(truestring[index])
  *             if truedigit in range(2):             # <<<<<<<<<<<<<<
  *                 liedigit = 1 - truedigit
- *                 liestring += str(liedigit)
+ *                 liestring = ''.join([liestring, str(liedigit)])
  */
   __pyx_tuple__2 = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
@@ -2097,9 +2124,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "knave.pyx":29
  *                 else:
  *                     break
- *             outstring += str(bin(i)[2:])             # <<<<<<<<<<<<<<
- *             outstring += glyph
+ *             outstring = ''.join([outstring, str(bin(i)[2:]), glyph])             # <<<<<<<<<<<<<<
  *         return(outstring)
+ * 
  */
   __pyx_slice__3 = PySlice_New(__pyx_int_2, Py_None, Py_None); if (unlikely(!__pyx_slice__3)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__3);
@@ -2749,6 +2776,13 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
             "NULL result without error in PyObject_Call");
     }
     return result;
+}
+#endif
+
+/* StringJoin */
+#if !CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values) {
+    return PyObject_CallMethodObjArgs(sep, __pyx_n_s_join, values, NULL);
 }
 #endif
 
