@@ -1,13 +1,13 @@
 # distutils: language = c++
-
 from libcpp.string cimport string
 
 cpdef str k_map(int iter=1, str string='1', bint print_all=True):
     """Calculate iter terms in the binay Look-Knave sequence starting at string.
     """
-    cdef str buffer, r_string, cur_string
+    cdef str r_string, cur_string
     cdef int truedigit, index, start, end, r_len, b_len, i, cur_bit
     cdef double percent
+    cdef list word_list
 
     cdef bint second_pass = False
     cur_bit = 1 - int(string[0])
@@ -24,13 +24,12 @@ cpdef str k_map(int iter=1, str string='1', bint print_all=True):
         if print_all:
             print(string)
 
-        buffer = string
-        b_len = len(buffer)
-
+        b_len = len(string)
+        word_list = []
         end = -1
-        string = ''
 
-        while end < b_len - 1:             # describe buffer
+        while end < b_len - 1:             # describe string
+
             cur_bit = 1 - cur_bit
             if cur_bit == 0:               # avoid type conversions
                 cur_string = '0'
@@ -39,9 +38,9 @@ cpdef str k_map(int iter=1, str string='1', bint print_all=True):
             start = end + 1                # move window
             end = start
             if end < b_len - 1:
-                while buffer[end + 1] == cur_string:
+                while string[end + 1] == cur_string:
                     end += 1
-                    if end == len(buffer) - 1:
+                    if end == len(string) - 1:
                         break
             r_len = end - start + 1
 
@@ -56,10 +55,13 @@ cpdef str k_map(int iter=1, str string='1', bint print_all=True):
             elif r_len == 5:
                 r_string = '101'
             else:
-                r_string = string(bin(r_len)[2:])
+                r_string = str(bin(r_len)[2:])
 
             if cur_bit == 0:
-                string = ''.join([string, r_string, '1'])
+                word_list.append(r_string)
+                word_list.append('1')
             else:
-                string = ''.join([string, r_string, '0'])
+                word_list.append(r_string)
+                word_list.append('0')
+        string = ''.join(word_list)
     return(string)
