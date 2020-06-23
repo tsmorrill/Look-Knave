@@ -1029,6 +1029,23 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetSlice(
         PyObject** py_start, PyObject** py_stop, PyObject** py_slice,
         int has_cstart, int has_cstop, int wraparound);
 
+/* ListCompAppend.proto */
+#if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
+static CYTHON_INLINE int __Pyx_ListComp_Append(PyObject* list, PyObject* x) {
+    PyListObject* L = (PyListObject*) list;
+    Py_ssize_t len = Py_SIZE(list);
+    if (likely(L->allocated > len)) {
+        Py_INCREF(x);
+        PyList_SET_ITEM(list, len, x);
+        Py_SIZE(list) = len+1;
+        return 0;
+    }
+    return PyList_Append(list, x);
+}
+#else
+#define __Pyx_ListComp_Append(L,x) PyList_Append(L,x)
+#endif
+
 /* ListAppend.proto */
 #if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
 static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
@@ -1305,6 +1322,7 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
   Py_ssize_t __pyx_t_7;
   long __pyx_t_8;
   int __pyx_t_9;
+  int __pyx_t_10;
   __Pyx_RefNannySetupContext("k_map", 0);
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
@@ -1803,8 +1821,8 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
  *                 r_string = str(bin(r_len)[2:])
  * 
  *             if cur_bit == 0:             # <<<<<<<<<<<<<<
- *                 word_list.append(r_string)
- *                 word_list.append('1')
+ *                 word_list.extend([r_string, '1'])
+ *             else:
  */
       __pyx_t_4 = ((__pyx_v_cur_bit == 0) != 0);
       if (__pyx_t_4) {
@@ -1812,68 +1830,54 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
         /* "knave.pyx":61
  * 
  *             if cur_bit == 0:
- *                 word_list.append(r_string)             # <<<<<<<<<<<<<<
- *                 word_list.append('1')
+ *                 word_list.extend([r_string, '1'])             # <<<<<<<<<<<<<<
  *             else:
+ *                 word_list.extend([r_string, '0'])
  */
-        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_word_list, __pyx_v_r_string); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 61, __pyx_L1_error)
-
-        /* "knave.pyx":62
- *             if cur_bit == 0:
- *                 word_list.append(r_string)
- *                 word_list.append('1')             # <<<<<<<<<<<<<<
- *             else:
- *                 word_list.append(r_string)
- */
-        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_word_list, __pyx_kp_s_1); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 62, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_ListComp_Append(__pyx_v_word_list, __pyx_v_r_string); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 61, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_word_list, __pyx_kp_s_1); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 61, __pyx_L1_error)
+        (void)((__pyx_t_9 | __pyx_t_10));
 
         /* "knave.pyx":60
  *                 r_string = str(bin(r_len)[2:])
  * 
  *             if cur_bit == 0:             # <<<<<<<<<<<<<<
- *                 word_list.append(r_string)
- *                 word_list.append('1')
+ *                 word_list.extend([r_string, '1'])
+ *             else:
  */
         goto __pyx_L15;
       }
 
-      /* "knave.pyx":64
- *                 word_list.append('1')
+      /* "knave.pyx":63
+ *                 word_list.extend([r_string, '1'])
  *             else:
- *                 word_list.append(r_string)             # <<<<<<<<<<<<<<
- *                 word_list.append('0')
- *         string = ''.join(word_list)
- */
-      /*else*/ {
-        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_word_list, __pyx_v_r_string); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 64, __pyx_L1_error)
-
-        /* "knave.pyx":65
- *             else:
- *                 word_list.append(r_string)
- *                 word_list.append('0')             # <<<<<<<<<<<<<<
+ *                 word_list.extend([r_string, '0'])             # <<<<<<<<<<<<<<
  *         string = ''.join(word_list)
  *     return(string)
  */
-        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_word_list, __pyx_kp_s_0); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 65, __pyx_L1_error)
+      /*else*/ {
+        __pyx_t_10 = __Pyx_ListComp_Append(__pyx_v_word_list, __pyx_v_r_string); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 63, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_word_list, __pyx_kp_s_0); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 63, __pyx_L1_error)
+        (void)((__pyx_t_10 | __pyx_t_9));
       }
       __pyx_L15:;
     }
 
-    /* "knave.pyx":66
- *                 word_list.append(r_string)
- *                 word_list.append('0')
+    /* "knave.pyx":64
+ *             else:
+ *                 word_list.extend([r_string, '0'])
  *         string = ''.join(word_list)             # <<<<<<<<<<<<<<
  *     return(string)
  */
-    __pyx_t_2 = __Pyx_PyString_Join(__pyx_kp_s__2, __pyx_v_word_list); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyString_Join(__pyx_kp_s__2, __pyx_v_word_list); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 66, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_DECREF_SET(__pyx_v_string, ((PyObject*)__pyx_t_2));
     __pyx_t_2 = 0;
   }
 
-  /* "knave.pyx":67
- *                 word_list.append('0')
+  /* "knave.pyx":65
+ *                 word_list.extend([r_string, '0'])
  *         string = ''.join(word_list)
  *     return(string)             # <<<<<<<<<<<<<<
  */

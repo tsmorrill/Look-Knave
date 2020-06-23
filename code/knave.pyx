@@ -58,10 +58,8 @@ cpdef str k_map(int iter=1, str string='1', bint print_all=True):
                 r_string = str(bin(r_len)[2:])
 
             if cur_bit == 0:
-                word_list.append(r_string)
-                word_list.append('1')
+                word_list.extend([r_string, '1'])
             else:
-                word_list.append(r_string)
-                word_list.append('0')
+                word_list.extend([r_string, '0'])
         string = ''.join(word_list)
     return(string)
