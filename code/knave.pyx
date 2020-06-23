@@ -5,7 +5,7 @@ cpdef str k_map(int iter=1, str string='1', bint print_all=True):
     """Calculate iter terms in the binay Look-Knave sequence starting at string.
     """
     cdef str r_string, cur_string
-    cdef int truedigit, index, start, end, r_len, b_len, i, cur_bit
+    cdef int truedigit, index, start, end, r_len, s_len, i, cur_bit
     cdef double percent
     cdef list word_list
 
@@ -24,11 +24,11 @@ cpdef str k_map(int iter=1, str string='1', bint print_all=True):
         if print_all:
             print(string)
 
-        b_len = len(string)
+        s_len = len(string)
         word_list = []
         end = -1
 
-        while end < b_len - 1:             # describe string
+        while end < s_len - 1:             # describe string
 
             cur_bit = 1 - cur_bit
             if cur_bit == 0:               # avoid type conversions
@@ -37,10 +37,10 @@ cpdef str k_map(int iter=1, str string='1', bint print_all=True):
                 cur_string = '1'
             start = end + 1                # move window
             end = start
-            if end < b_len - 1:
+            if end < s_len - 1:
                 while string[end + 1] == cur_string:
                     end += 1
-                    if end == len(string) - 1:
+                    if end == s_len - 1:
                         break
             r_len = end - start + 1
 

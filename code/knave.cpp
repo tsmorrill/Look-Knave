@@ -1289,7 +1289,7 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
   int __pyx_v_start;
   int __pyx_v_end;
   int __pyx_v_r_len;
-  int __pyx_v_b_len;
+  int __pyx_v_s_len;
   CYTHON_UNUSED int __pyx_v_i;
   int __pyx_v_cur_bit;
   PyObject *__pyx_v_word_list = 0;
@@ -1458,7 +1458,7 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
  *         if print_all:
  *             print(string)             # <<<<<<<<<<<<<<
  * 
- *         b_len = len(string)
+ *         s_len = len(string)
  */
       if (__Pyx_PrintOne(0, __pyx_v_string) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
 
@@ -1474,16 +1474,16 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
     /* "knave.pyx":27
  *             print(string)
  * 
- *         b_len = len(string)             # <<<<<<<<<<<<<<
+ *         s_len = len(string)             # <<<<<<<<<<<<<<
  *         word_list = []
  *         end = -1
  */
     __pyx_t_7 = PyObject_Length(__pyx_v_string); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 27, __pyx_L1_error)
-    __pyx_v_b_len = __pyx_t_7;
+    __pyx_v_s_len = __pyx_t_7;
 
     /* "knave.pyx":28
  * 
- *         b_len = len(string)
+ *         s_len = len(string)
  *         word_list = []             # <<<<<<<<<<<<<<
  *         end = -1
  * 
@@ -1494,27 +1494,27 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
     __pyx_t_1 = 0;
 
     /* "knave.pyx":29
- *         b_len = len(string)
+ *         s_len = len(string)
  *         word_list = []
  *         end = -1             # <<<<<<<<<<<<<<
  * 
- *         while end < b_len - 1:             # describe string
+ *         while end < s_len - 1:             # describe string
  */
     __pyx_v_end = -1;
 
     /* "knave.pyx":31
  *         end = -1
  * 
- *         while end < b_len - 1:             # describe string             # <<<<<<<<<<<<<<
+ *         while end < s_len - 1:             # describe string             # <<<<<<<<<<<<<<
  * 
  *             cur_bit = 1 - cur_bit
  */
     while (1) {
-      __pyx_t_4 = ((__pyx_v_end < (__pyx_v_b_len - 1)) != 0);
+      __pyx_t_4 = ((__pyx_v_end < (__pyx_v_s_len - 1)) != 0);
       if (!__pyx_t_4) break;
 
       /* "knave.pyx":33
- *         while end < b_len - 1:             # describe string
+ *         while end < s_len - 1:             # describe string
  * 
  *             cur_bit = 1 - cur_bit             # <<<<<<<<<<<<<<
  *             if cur_bit == 0:               # avoid type conversions
@@ -1570,7 +1570,7 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
  *                 cur_string = '1'
  *             start = end + 1                # move window             # <<<<<<<<<<<<<<
  *             end = start
- *             if end < b_len - 1:
+ *             if end < s_len - 1:
  */
       __pyx_v_start = (__pyx_v_end + 1);
 
@@ -1578,7 +1578,7 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
  *                 cur_string = '1'
  *             start = end + 1                # move window
  *             end = start             # <<<<<<<<<<<<<<
- *             if end < b_len - 1:
+ *             if end < s_len - 1:
  *                 while string[end + 1] == cur_string:
  */
       __pyx_v_end = __pyx_v_start;
@@ -1586,19 +1586,19 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
       /* "knave.pyx":40
  *             start = end + 1                # move window
  *             end = start
- *             if end < b_len - 1:             # <<<<<<<<<<<<<<
+ *             if end < s_len - 1:             # <<<<<<<<<<<<<<
  *                 while string[end + 1] == cur_string:
  *                     end += 1
  */
-      __pyx_t_4 = ((__pyx_v_end < (__pyx_v_b_len - 1)) != 0);
+      __pyx_t_4 = ((__pyx_v_end < (__pyx_v_s_len - 1)) != 0);
       if (__pyx_t_4) {
 
         /* "knave.pyx":41
  *             end = start
- *             if end < b_len - 1:
+ *             if end < s_len - 1:
  *                 while string[end + 1] == cur_string:             # <<<<<<<<<<<<<<
  *                     end += 1
- *                     if end == len(string) - 1:
+ *                     if end == s_len - 1:
  */
         while (1) {
           __pyx_t_8 = (__pyx_v_end + 1);
@@ -1609,10 +1609,10 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
           if (!__pyx_t_4) break;
 
           /* "knave.pyx":42
- *             if end < b_len - 1:
+ *             if end < s_len - 1:
  *                 while string[end + 1] == cur_string:
  *                     end += 1             # <<<<<<<<<<<<<<
- *                     if end == len(string) - 1:
+ *                     if end == s_len - 1:
  *                         break
  */
           __pyx_v_end = (__pyx_v_end + 1);
@@ -1620,17 +1620,16 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
           /* "knave.pyx":43
  *                 while string[end + 1] == cur_string:
  *                     end += 1
- *                     if end == len(string) - 1:             # <<<<<<<<<<<<<<
+ *                     if end == s_len - 1:             # <<<<<<<<<<<<<<
  *                         break
  *             r_len = end - start + 1
  */
-          __pyx_t_7 = PyObject_Length(__pyx_v_string); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 43, __pyx_L1_error)
-          __pyx_t_4 = ((__pyx_v_end == (__pyx_t_7 - 1)) != 0);
+          __pyx_t_4 = ((__pyx_v_end == (__pyx_v_s_len - 1)) != 0);
           if (__pyx_t_4) {
 
             /* "knave.pyx":44
  *                     end += 1
- *                     if end == len(string) - 1:
+ *                     if end == s_len - 1:
  *                         break             # <<<<<<<<<<<<<<
  *             r_len = end - start + 1
  * 
@@ -1640,7 +1639,7 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
             /* "knave.pyx":43
  *                 while string[end + 1] == cur_string:
  *                     end += 1
- *                     if end == len(string) - 1:             # <<<<<<<<<<<<<<
+ *                     if end == s_len - 1:             # <<<<<<<<<<<<<<
  *                         break
  *             r_len = end - start + 1
  */
@@ -1651,14 +1650,14 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
         /* "knave.pyx":40
  *             start = end + 1                # move window
  *             end = start
- *             if end < b_len - 1:             # <<<<<<<<<<<<<<
+ *             if end < s_len - 1:             # <<<<<<<<<<<<<<
  *                 while string[end + 1] == cur_string:
  *                     end += 1
  */
       }
 
       /* "knave.pyx":45
- *                     if end == len(string) - 1:
+ *                     if end == s_len - 1:
  *                         break
  *             r_len = end - start + 1             # <<<<<<<<<<<<<<
  * 

@@ -378,7 +378,7 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
   int __pyx_v_start;
   int __pyx_v_end;
   int __pyx_v_r_len;
-  int __pyx_v_b_len;
+  int __pyx_v_s_len;
   CYTHON_UNUSED int __pyx_v_i;
   int __pyx_v_cur_bit;
   PyObject *__pyx_v_word_list = 0;
@@ -537,7 +537,7 @@ static PyObject *__pyx_pf_5knave_k_map(CYTHON_UNUSED PyObject *__pyx_self, int _
 </pre><pre class="cython line score-0">&#xA0;<span class="">05</span>:     <span class="sd">&quot;&quot;&quot;Calculate iter terms in the binay Look-Knave sequence starting at string.</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">06</span>: <span class="sd">    &quot;&quot;&quot;</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">07</span>:     <span class="k">cdef</span> <span class="kt">str</span> <span class="nf">r_string</span><span class="p">,</span> <span class="nf">cur_string</span></pre>
-<pre class="cython line score-0">&#xA0;<span class="">08</span>:     <span class="k">cdef</span> <span class="kt">int</span> <span class="nf">truedigit</span><span class="p">,</span> <span class="nf">index</span><span class="p">,</span> <span class="nf">start</span><span class="p">,</span> <span class="nf">end</span><span class="p">,</span> <span class="nf">r_len</span><span class="p">,</span> <span class="nf">b_len</span><span class="p">,</span> <span class="nf">i</span><span class="p">,</span> <span class="nf">cur_bit</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">08</span>:     <span class="k">cdef</span> <span class="kt">int</span> <span class="nf">truedigit</span><span class="p">,</span> <span class="nf">index</span><span class="p">,</span> <span class="nf">start</span><span class="p">,</span> <span class="nf">end</span><span class="p">,</span> <span class="nf">r_len</span><span class="p">,</span> <span class="nf">s_len</span><span class="p">,</span> <span class="nf">i</span><span class="p">,</span> <span class="nf">cur_bit</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">09</span>:     <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">percent</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">10</span>:     <span class="k">cdef</span> <span class="kt">list</span> <span class="nf">word_list</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">11</span>: </pre>
@@ -599,9 +599,9 @@ static PyObject *__pyx_pf_5knave_k_map(CYTHON_UNUSED PyObject *__pyx_self, int _
 </pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">25</span>:             <span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">)</span></pre>
 <pre class='cython code score-2 '>      if (<span class='pyx_c_api'>__Pyx_PrintOne</span>(0, __pyx_v_string) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 25, __pyx_L1_error)</span>
 </pre><pre class="cython line score-0">&#xA0;<span class="">26</span>: </pre>
-<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">27</span>:         <span class="n">b_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span></pre>
+<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">27</span>:         <span class="n">s_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span></pre>
 <pre class='cython code score-5 '>    __pyx_t_7 = <span class='py_c_api'>PyObject_Length</span>(__pyx_v_string);<span class='error_goto'> if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 27, __pyx_L1_error)</span>
-    __pyx_v_b_len = __pyx_t_7;
+    __pyx_v_s_len = __pyx_t_7;
 </pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">28</span>:         <span class="n">word_list</span> <span class="o">=</span> <span class="p">[]</span></pre>
 <pre class='cython code score-6 '>    __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
@@ -610,9 +610,9 @@ static PyObject *__pyx_pf_5knave_k_map(CYTHON_UNUSED PyObject *__pyx_self, int _
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">29</span>:         <span class="n">end</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1</span></pre>
 <pre class='cython code score-0 '>    __pyx_v_end = -1;
 </pre><pre class="cython line score-0">&#xA0;<span class="">30</span>: </pre>
-<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">31</span>:         <span class="k">while</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="n">b_len</span> <span class="o">-</span> <span class="mf">1</span><span class="p">:</span>             <span class="c"># describe string</span></pre>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">31</span>:         <span class="k">while</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="n">s_len</span> <span class="o">-</span> <span class="mf">1</span><span class="p">:</span>             <span class="c"># describe string</span></pre>
 <pre class='cython code score-0 '>    while (1) {
-      __pyx_t_4 = ((__pyx_v_end &lt; (__pyx_v_b_len - 1)) != 0);
+      __pyx_t_4 = ((__pyx_v_end &lt; (__pyx_v_s_len - 1)) != 0);
       if (!__pyx_t_4) break;
 </pre><pre class="cython line score-0">&#xA0;<span class="">32</span>: </pre>
 <pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">33</span>:             <span class="n">cur_bit</span> <span class="o">=</span> <span class="mf">1</span> <span class="o">-</span> <span class="n">cur_bit</span></pre>
@@ -637,8 +637,8 @@ static PyObject *__pyx_pf_5knave_k_map(CYTHON_UNUSED PyObject *__pyx_self, int _
 <pre class='cython code score-0 '>      __pyx_v_start = (__pyx_v_end + 1);
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">39</span>:             <span class="n">end</span> <span class="o">=</span> <span class="n">start</span></pre>
 <pre class='cython code score-0 '>      __pyx_v_end = __pyx_v_start;
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">40</span>:             <span class="k">if</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="n">b_len</span> <span class="o">-</span> <span class="mf">1</span><span class="p">:</span></pre>
-<pre class='cython code score-0 '>      __pyx_t_4 = ((__pyx_v_end &lt; (__pyx_v_b_len - 1)) != 0);
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">40</span>:             <span class="k">if</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="n">s_len</span> <span class="o">-</span> <span class="mf">1</span><span class="p">:</span></pre>
+<pre class='cython code score-0 '>      __pyx_t_4 = ((__pyx_v_end &lt; (__pyx_v_s_len - 1)) != 0);
       if (__pyx_t_4) {
 /* … */
       }
@@ -652,9 +652,8 @@ static PyObject *__pyx_pf_5knave_k_map(CYTHON_UNUSED PyObject *__pyx_self, int _
           if (!__pyx_t_4) break;
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">42</span>:                     <span class="n">end</span> <span class="o">+=</span> <span class="mf">1</span></pre>
 <pre class='cython code score-0 '>          __pyx_v_end = (__pyx_v_end + 1);
-</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">43</span>:                     <span class="k">if</span> <span class="n">end</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1</span><span class="p">:</span></pre>
-<pre class='cython code score-5 '>          __pyx_t_7 = <span class='py_c_api'>PyObject_Length</span>(__pyx_v_string);<span class='error_goto'> if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 43, __pyx_L1_error)</span>
-          __pyx_t_4 = ((__pyx_v_end == (__pyx_t_7 - 1)) != 0);
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">43</span>:                     <span class="k">if</span> <span class="n">end</span> <span class="o">==</span> <span class="n">s_len</span> <span class="o">-</span> <span class="mf">1</span><span class="p">:</span></pre>
+<pre class='cython code score-0 '>          __pyx_t_4 = ((__pyx_v_end == (__pyx_v_s_len - 1)) != 0);
           if (__pyx_t_4) {
 /* … */
           }
