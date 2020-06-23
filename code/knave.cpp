@@ -932,12 +932,13 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 /* GetBuiltinName.proto */
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
-/* None.proto */
-static CYTHON_INLINE int __Pyx_div_int(int, int);
-
-/* UnaryNegOverflows.proto */
-#define UNARY_NEG_WOULD_OVERFLOW(x)\
-        (((x) < 0) & ((unsigned long)(x) == 0-(unsigned long)(x)))
+/* PyIntBinop.proto */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_SubtractCObj(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
+#else
+#define __Pyx_PyInt_SubtractCObj(op1, op2, intval, inplace, zerodivision_check)\
+    (inplace ? PyNumber_InPlaceSubtract(op1, op2) : PyNumber_Subtract(op1, op2))
+#endif
 
 /* GetItemInt.proto */
 #define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
@@ -975,24 +976,6 @@ static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int 
 #define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
 #else
 #define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
-/* StringJoin.proto */
-#if PY_MAJOR_VERSION < 3
-#define __Pyx_PyString_Join __Pyx_PyBytes_Join
-#define __Pyx_PyBaseString_Join(s, v) (PyUnicode_CheckExact(s) ? PyUnicode_Join(s, v) : __Pyx_PyBytes_Join(s, v))
-#else
-#define __Pyx_PyString_Join PyUnicode_Join
-#define __Pyx_PyBaseString_Join PyUnicode_Join
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON
-    #if PY_MAJOR_VERSION < 3
-    #define __Pyx_PyBytes_Join _PyString_Join
-    #else
-    #define __Pyx_PyBytes_Join _PyBytes_Join
-    #endif
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values);
 #endif
 
 /* PyCFunctionFastCall.proto */
@@ -1045,6 +1028,27 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetSlice(
         PyObject* obj, Py_ssize_t cstart, Py_ssize_t cstop,
         PyObject** py_start, PyObject** py_stop, PyObject** py_slice,
         int has_cstart, int has_cstop, int wraparound);
+
+/* PyObjectCall2Args.proto */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
+
+/* StringJoin.proto */
+#if PY_MAJOR_VERSION < 3
+#define __Pyx_PyString_Join __Pyx_PyBytes_Join
+#define __Pyx_PyBaseString_Join(s, v) (PyUnicode_CheckExact(s) ? PyUnicode_Join(s, v) : __Pyx_PyBytes_Join(s, v))
+#else
+#define __Pyx_PyString_Join PyUnicode_Join
+#define __Pyx_PyBaseString_Join PyUnicode_Join
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+    #if PY_MAJOR_VERSION < 3
+    #define __Pyx_PyBytes_Join _PyString_Join
+    #else
+    #define __Pyx_PyBytes_Join _PyBytes_Join
+    #endif
+#else
+static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values);
+#endif
 
 /* RaiseDoubleKeywords.proto */
 static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
@@ -1153,6 +1157,9 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
                                int py_line, const char *filename);
 
 /* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
+
+/* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
 /* Print.proto */
@@ -1161,9 +1168,6 @@ static int __Pyx_Print(PyObject*, PyObject *, int);
 static PyObject* __pyx_print = 0;
 static PyObject* __pyx_print_kwargs = 0;
 #endif
-
-/* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
@@ -1210,6 +1214,10 @@ static PyObject *__pyx_builtin_bin;
 static const char __pyx_k_[] = "";
 static const char __pyx_k_0[] = "0";
 static const char __pyx_k_1[] = "1";
+static const char __pyx_k_10[] = "10";
+static const char __pyx_k_11[] = "11";
+static const char __pyx_k_100[] = "100";
+static const char __pyx_k_101[] = "101";
 static const char __pyx_k_bin[] = "bin";
 static const char __pyx_k_end[] = "end";
 static const char __pyx_k_file[] = "file";
@@ -1226,6 +1234,10 @@ static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static PyObject *__pyx_kp_s_;
 static PyObject *__pyx_kp_s_0;
 static PyObject *__pyx_kp_s_1;
+static PyObject *__pyx_kp_s_10;
+static PyObject *__pyx_kp_s_100;
+static PyObject *__pyx_kp_s_101;
+static PyObject *__pyx_kp_s_11;
 static PyObject *__pyx_n_s_bin;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_end;
@@ -1240,6 +1252,7 @@ static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_string;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_pf_5knave_k_map(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_iter, PyObject *__pyx_v_string, int __pyx_v_print_all); /* proto */
+static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_2;
 static PyObject *__pyx_slice__2;
 /* Late includes */
@@ -1258,25 +1271,27 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
   PyObject *__pyx_v_string = ((PyObject*)__pyx_kp_s_1);
   int __pyx_v_print_all = ((int)1);
   PyObject *__pyx_v_buffer = 0;
-  PyObject *__pyx_v_glyph = 0;
+  PyObject *__pyx_v_r_string = 0;
+  PyObject *__pyx_v_cur_string = 0;
   int __pyx_v_start;
   int __pyx_v_end;
-  int __pyx_v_rlen;
-  int __pyx_v_blen;
-  int __pyx_v_i;
-  double __pyx_v_percent;
-  PyObject *__pyx_v_lieglyph = NULL;
+  int __pyx_v_r_len;
+  int __pyx_v_b_len;
+  CYTHON_UNUSED int __pyx_v_i;
+  int __pyx_v_cur_bit;
+  int __pyx_v_second_pass;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  int __pyx_t_2;
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
   int __pyx_t_3;
   int __pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
-  Py_ssize_t __pyx_t_6;
-  int __pyx_t_7;
+  int __pyx_t_5;
+  int __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
   long __pyx_t_8;
   PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_10 = NULL;
   __Pyx_RefNannySetupContext("k_map", 0);
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
@@ -1294,98 +1309,177 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
   /* "knave.pyx":12
  *     cdef double percent
  * 
+ *     cdef bint second_pass = False             # <<<<<<<<<<<<<<
+ *     cur_bit = 1 - int(string[0])
+ *     if cur_bit == 0:
+ */
+  __pyx_v_second_pass = 0;
+
+  /* "knave.pyx":13
+ * 
+ *     cdef bint second_pass = False
+ *     cur_bit = 1 - int(string[0])             # <<<<<<<<<<<<<<
+ *     if cur_bit == 0:
+ *         cur_string = '0'
+ */
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_string, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyInt_SubtractCObj(__pyx_int_1, __pyx_t_2, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_cur_bit = __pyx_t_3;
+
+  /* "knave.pyx":14
+ *     cdef bint second_pass = False
+ *     cur_bit = 1 - int(string[0])
+ *     if cur_bit == 0:             # <<<<<<<<<<<<<<
+ *         cur_string = '0'
+ *     else:
+ */
+  __pyx_t_4 = ((__pyx_v_cur_bit == 0) != 0);
+  if (__pyx_t_4) {
+
+    /* "knave.pyx":15
+ *     cur_bit = 1 - int(string[0])
+ *     if cur_bit == 0:
+ *         cur_string = '0'             # <<<<<<<<<<<<<<
+ *     else:
+ *         cur_string = '1'
+ */
+    __Pyx_INCREF(__pyx_kp_s_0);
+    __pyx_v_cur_string = __pyx_kp_s_0;
+
+    /* "knave.pyx":14
+ *     cdef bint second_pass = False
+ *     cur_bit = 1 - int(string[0])
+ *     if cur_bit == 0:             # <<<<<<<<<<<<<<
+ *         cur_string = '0'
+ *     else:
+ */
+    goto __pyx_L3;
+  }
+
+  /* "knave.pyx":17
+ *         cur_string = '0'
+ *     else:
+ *         cur_string = '1'             # <<<<<<<<<<<<<<
+ * 
+ *     for i in range(iter):
+ */
+  /*else*/ {
+    __Pyx_INCREF(__pyx_kp_s_1);
+    __pyx_v_cur_string = __pyx_kp_s_1;
+  }
+  __pyx_L3:;
+
+  /* "knave.pyx":19
+ *         cur_string = '1'
+ * 
  *     for i in range(iter):             # <<<<<<<<<<<<<<
+ *         if second_pass:
+ *             cur_bit = 0
+ */
+  __pyx_t_3 = __pyx_v_iter;
+  __pyx_t_5 = __pyx_t_3;
+  for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
+    __pyx_v_i = __pyx_t_6;
+
+    /* "knave.pyx":20
+ * 
+ *     for i in range(iter):
+ *         if second_pass:             # <<<<<<<<<<<<<<
+ *             cur_bit = 0
+ *         else:
+ */
+    __pyx_t_4 = (__pyx_v_second_pass != 0);
+    if (__pyx_t_4) {
+
+      /* "knave.pyx":21
+ *     for i in range(iter):
+ *         if second_pass:
+ *             cur_bit = 0             # <<<<<<<<<<<<<<
+ *         else:
+ *             second_pass = True
+ */
+      __pyx_v_cur_bit = 0;
+
+      /* "knave.pyx":20
+ * 
+ *     for i in range(iter):
+ *         if second_pass:             # <<<<<<<<<<<<<<
+ *             cur_bit = 0
+ *         else:
+ */
+      goto __pyx_L6;
+    }
+
+    /* "knave.pyx":23
+ *             cur_bit = 0
+ *         else:
+ *             second_pass = True             # <<<<<<<<<<<<<<
  *         if print_all:
  *             print(string)
  */
-  __pyx_t_1 = __pyx_v_iter;
-  __pyx_t_2 = __pyx_t_1;
-  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
-    __pyx_v_i = __pyx_t_3;
+    /*else*/ {
+      __pyx_v_second_pass = 1;
+    }
+    __pyx_L6:;
 
-    /* "knave.pyx":13
- * 
- *     for i in range(iter):
+    /* "knave.pyx":24
+ *         else:
+ *             second_pass = True
  *         if print_all:             # <<<<<<<<<<<<<<
  *             print(string)
- *         else:
+ * 
  */
     __pyx_t_4 = (__pyx_v_print_all != 0);
     if (__pyx_t_4) {
 
-      /* "knave.pyx":14
- *     for i in range(iter):
+      /* "knave.pyx":25
+ *             second_pass = True
  *         if print_all:
  *             print(string)             # <<<<<<<<<<<<<<
- *         else:
- *             percent = i/iter
- */
-      if (__Pyx_PrintOne(0, __pyx_v_string) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
-
-      /* "knave.pyx":13
- * 
- *     for i in range(iter):
- *         if print_all:             # <<<<<<<<<<<<<<
- *             print(string)
- *         else:
- */
-      goto __pyx_L5;
-    }
-
-    /* "knave.pyx":16
- *             print(string)
- *         else:
- *             percent = i/iter             # <<<<<<<<<<<<<<
- *             print(percent)
- * 
- */
-    /*else*/ {
-      if (unlikely(__pyx_v_iter == 0)) {
-        PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-        __PYX_ERR(0, 16, __pyx_L1_error)
-      }
-      else if (sizeof(int) == sizeof(long) && (!(((int)-1) > 0)) && unlikely(__pyx_v_iter == (int)-1)  && unlikely(UNARY_NEG_WOULD_OVERFLOW(__pyx_v_i))) {
-        PyErr_SetString(PyExc_OverflowError, "value too large to perform division");
-        __PYX_ERR(0, 16, __pyx_L1_error)
-      }
-      __pyx_v_percent = __Pyx_div_int(__pyx_v_i, __pyx_v_iter);
-
-      /* "knave.pyx":17
- *         else:
- *             percent = i/iter
- *             print(percent)             # <<<<<<<<<<<<<<
  * 
  *         buffer = string
  */
-      __pyx_t_5 = PyFloat_FromDouble(__pyx_v_percent); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 17, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      if (__Pyx_PrintOne(0, __pyx_t_5) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    }
-    __pyx_L5:;
+      if (__Pyx_PrintOne(0, __pyx_v_string) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
 
-    /* "knave.pyx":19
- *             print(percent)
+      /* "knave.pyx":24
+ *         else:
+ *             second_pass = True
+ *         if print_all:             # <<<<<<<<<<<<<<
+ *             print(string)
+ * 
+ */
+    }
+
+    /* "knave.pyx":27
+ *             print(string)
  * 
  *         buffer = string             # <<<<<<<<<<<<<<
- *         blen = len(buffer)
+ *         b_len = len(buffer)
  * 
  */
     __Pyx_INCREF(__pyx_v_string);
     __Pyx_XDECREF_SET(__pyx_v_buffer, __pyx_v_string);
 
-    /* "knave.pyx":20
+    /* "knave.pyx":28
  * 
  *         buffer = string
- *         blen = len(buffer)             # <<<<<<<<<<<<<<
+ *         b_len = len(buffer)             # <<<<<<<<<<<<<<
  * 
  *         end = -1
  */
-    __pyx_t_6 = PyObject_Length(__pyx_v_buffer); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 20, __pyx_L1_error)
-    __pyx_v_blen = __pyx_t_6;
+    __pyx_t_7 = PyObject_Length(__pyx_v_buffer); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 28, __pyx_L1_error)
+    __pyx_v_b_len = __pyx_t_7;
 
-    /* "knave.pyx":22
- *         blen = len(buffer)
+    /* "knave.pyx":30
+ *         b_len = len(buffer)
  * 
  *         end = -1             # <<<<<<<<<<<<<<
  *         string = ''
@@ -1393,225 +1487,405 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
  */
     __pyx_v_end = -1;
 
-    /* "knave.pyx":23
+    /* "knave.pyx":31
  * 
  *         end = -1
  *         string = ''             # <<<<<<<<<<<<<<
  * 
- *         while end < blen - 1:              # describe buffer
+ *         while end < b_len - 1:             # describe buffer
  */
     __Pyx_INCREF(__pyx_kp_s_);
     __Pyx_DECREF_SET(__pyx_v_string, __pyx_kp_s_);
 
-    /* "knave.pyx":25
+    /* "knave.pyx":33
  *         string = ''
  * 
- *         while end < blen - 1:              # describe buffer             # <<<<<<<<<<<<<<
- *             start = end + 1                       # move window
- *             end = start
+ *         while end < b_len - 1:             # describe buffer             # <<<<<<<<<<<<<<
+ *             cur_bit = 1 - cur_bit
+ *             if cur_bit == 0:               # avoid type conversions
  */
     while (1) {
-      __pyx_t_4 = ((__pyx_v_end < (__pyx_v_blen - 1)) != 0);
+      __pyx_t_4 = ((__pyx_v_end < (__pyx_v_b_len - 1)) != 0);
       if (!__pyx_t_4) break;
 
-      /* "knave.pyx":26
+      /* "knave.pyx":34
  * 
- *         while end < blen - 1:              # describe buffer
- *             start = end + 1                       # move window             # <<<<<<<<<<<<<<
+ *         while end < b_len - 1:             # describe buffer
+ *             cur_bit = 1 - cur_bit             # <<<<<<<<<<<<<<
+ *             if cur_bit == 0:               # avoid type conversions
+ *                 cur_string = '0'
+ */
+      __pyx_v_cur_bit = (1 - __pyx_v_cur_bit);
+
+      /* "knave.pyx":35
+ *         while end < b_len - 1:             # describe buffer
+ *             cur_bit = 1 - cur_bit
+ *             if cur_bit == 0:               # avoid type conversions             # <<<<<<<<<<<<<<
+ *                 cur_string = '0'
+ *             else:
+ */
+      __pyx_t_4 = ((__pyx_v_cur_bit == 0) != 0);
+      if (__pyx_t_4) {
+
+        /* "knave.pyx":36
+ *             cur_bit = 1 - cur_bit
+ *             if cur_bit == 0:               # avoid type conversions
+ *                 cur_string = '0'             # <<<<<<<<<<<<<<
+ *             else:
+ *                 cur_string = '1'
+ */
+        __Pyx_INCREF(__pyx_kp_s_0);
+        __Pyx_DECREF_SET(__pyx_v_cur_string, __pyx_kp_s_0);
+
+        /* "knave.pyx":35
+ *         while end < b_len - 1:             # describe buffer
+ *             cur_bit = 1 - cur_bit
+ *             if cur_bit == 0:               # avoid type conversions             # <<<<<<<<<<<<<<
+ *                 cur_string = '0'
+ *             else:
+ */
+        goto __pyx_L10;
+      }
+
+      /* "knave.pyx":38
+ *                 cur_string = '0'
+ *             else:
+ *                 cur_string = '1'             # <<<<<<<<<<<<<<
+ *             start = end + 1                # move window
  *             end = start
- *             glyph = buffer[start]
+ */
+      /*else*/ {
+        __Pyx_INCREF(__pyx_kp_s_1);
+        __Pyx_DECREF_SET(__pyx_v_cur_string, __pyx_kp_s_1);
+      }
+      __pyx_L10:;
+
+      /* "knave.pyx":39
+ *             else:
+ *                 cur_string = '1'
+ *             start = end + 1                # move window             # <<<<<<<<<<<<<<
+ *             end = start
+ *             if end < b_len - 1:
  */
       __pyx_v_start = (__pyx_v_end + 1);
 
-      /* "knave.pyx":27
- *         while end < blen - 1:              # describe buffer
- *             start = end + 1                       # move window
+      /* "knave.pyx":40
+ *                 cur_string = '1'
+ *             start = end + 1                # move window
  *             end = start             # <<<<<<<<<<<<<<
- *             glyph = buffer[start]
- *             if glyph == '0':
+ *             if end < b_len - 1:
+ *                 while buffer[end + 1] == cur_string:
  */
       __pyx_v_end = __pyx_v_start;
 
-      /* "knave.pyx":28
- *             start = end + 1                       # move window
+      /* "knave.pyx":41
+ *             start = end + 1                # move window
  *             end = start
- *             glyph = buffer[start]             # <<<<<<<<<<<<<<
- *             if glyph == '0':
- *                 lieglyph = '1'
- */
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_buffer, __pyx_v_start, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 28, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 28, __pyx_L1_error)
-      __Pyx_XDECREF_SET(__pyx_v_glyph, ((PyObject*)__pyx_t_5));
-      __pyx_t_5 = 0;
-
-      /* "knave.pyx":29
- *             end = start
- *             glyph = buffer[start]
- *             if glyph == '0':             # <<<<<<<<<<<<<<
- *                 lieglyph = '1'
- *             else:
- */
-      __pyx_t_4 = (__Pyx_PyString_Equals(__pyx_v_glyph, __pyx_kp_s_0, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 29, __pyx_L1_error)
-      __pyx_t_7 = (__pyx_t_4 != 0);
-      if (__pyx_t_7) {
-
-        /* "knave.pyx":30
- *             glyph = buffer[start]
- *             if glyph == '0':
- *                 lieglyph = '1'             # <<<<<<<<<<<<<<
- *             else:
- *                 lieglyph = '0'
- */
-        __Pyx_INCREF(__pyx_kp_s_1);
-        __Pyx_XDECREF_SET(__pyx_v_lieglyph, __pyx_kp_s_1);
-
-        /* "knave.pyx":29
- *             end = start
- *             glyph = buffer[start]
- *             if glyph == '0':             # <<<<<<<<<<<<<<
- *                 lieglyph = '1'
- *             else:
- */
-        goto __pyx_L8;
-      }
-
-      /* "knave.pyx":32
- *                 lieglyph = '1'
- *             else:
- *                 lieglyph = '0'             # <<<<<<<<<<<<<<
- *             if end < blen - 2:
- *                 while buffer[end + 1] == glyph:
- */
-      /*else*/ {
-        __Pyx_INCREF(__pyx_kp_s_0);
-        __Pyx_XDECREF_SET(__pyx_v_lieglyph, __pyx_kp_s_0);
-      }
-      __pyx_L8:;
-
-      /* "knave.pyx":33
- *             else:
- *                 lieglyph = '0'
- *             if end < blen - 2:             # <<<<<<<<<<<<<<
- *                 while buffer[end + 1] == glyph:
+ *             if end < b_len - 1:             # <<<<<<<<<<<<<<
+ *                 while buffer[end + 1] == cur_string:
  *                     end += 1
  */
-      __pyx_t_7 = ((__pyx_v_end < (__pyx_v_blen - 2)) != 0);
-      if (__pyx_t_7) {
+      __pyx_t_4 = ((__pyx_v_end < (__pyx_v_b_len - 1)) != 0);
+      if (__pyx_t_4) {
 
-        /* "knave.pyx":34
- *                 lieglyph = '0'
- *             if end < blen - 2:
- *                 while buffer[end + 1] == glyph:             # <<<<<<<<<<<<<<
+        /* "knave.pyx":42
+ *             end = start
+ *             if end < b_len - 1:
+ *                 while buffer[end + 1] == cur_string:             # <<<<<<<<<<<<<<
  *                     end += 1
  *                     if end == len(buffer) - 1:
  */
         while (1) {
           __pyx_t_8 = (__pyx_v_end + 1);
-          __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_buffer, __pyx_t_8, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 34, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_t_5, __pyx_v_glyph, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 34, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          if (!__pyx_t_7) break;
+          __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_buffer, __pyx_t_8, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          __pyx_t_4 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_v_cur_string, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+          if (!__pyx_t_4) break;
 
-          /* "knave.pyx":35
- *             if end < blen - 2:
- *                 while buffer[end + 1] == glyph:
+          /* "knave.pyx":43
+ *             if end < b_len - 1:
+ *                 while buffer[end + 1] == cur_string:
  *                     end += 1             # <<<<<<<<<<<<<<
  *                     if end == len(buffer) - 1:
  *                         break
  */
           __pyx_v_end = (__pyx_v_end + 1);
 
-          /* "knave.pyx":36
- *                 while buffer[end + 1] == glyph:
+          /* "knave.pyx":44
+ *                 while buffer[end + 1] == cur_string:
  *                     end += 1
  *                     if end == len(buffer) - 1:             # <<<<<<<<<<<<<<
  *                         break
- *             rlen = end - start + 1
+ *             r_len = end - start + 1
  */
-          __pyx_t_6 = PyObject_Length(__pyx_v_buffer); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 36, __pyx_L1_error)
-          __pyx_t_7 = ((__pyx_v_end == (__pyx_t_6 - 1)) != 0);
-          if (__pyx_t_7) {
+          __pyx_t_7 = PyObject_Length(__pyx_v_buffer); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 44, __pyx_L1_error)
+          __pyx_t_4 = ((__pyx_v_end == (__pyx_t_7 - 1)) != 0);
+          if (__pyx_t_4) {
 
-            /* "knave.pyx":37
+            /* "knave.pyx":45
  *                     end += 1
  *                     if end == len(buffer) - 1:
  *                         break             # <<<<<<<<<<<<<<
- *             rlen = end - start + 1
- *             string = ''.join([string, str(bin(rlen)[2:]), lieglyph])
+ *             r_len = end - start + 1
+ * 
  */
-            goto __pyx_L11_break;
+            goto __pyx_L13_break;
 
-            /* "knave.pyx":36
- *                 while buffer[end + 1] == glyph:
+            /* "knave.pyx":44
+ *                 while buffer[end + 1] == cur_string:
  *                     end += 1
  *                     if end == len(buffer) - 1:             # <<<<<<<<<<<<<<
  *                         break
- *             rlen = end - start + 1
+ *             r_len = end - start + 1
  */
           }
         }
-        __pyx_L11_break:;
+        __pyx_L13_break:;
 
-        /* "knave.pyx":33
- *             else:
- *                 lieglyph = '0'
- *             if end < blen - 2:             # <<<<<<<<<<<<<<
- *                 while buffer[end + 1] == glyph:
+        /* "knave.pyx":41
+ *             start = end + 1                # move window
+ *             end = start
+ *             if end < b_len - 1:             # <<<<<<<<<<<<<<
+ *                 while buffer[end + 1] == cur_string:
  *                     end += 1
  */
       }
 
-      /* "knave.pyx":38
+      /* "knave.pyx":46
  *                     if end == len(buffer) - 1:
  *                         break
- *             rlen = end - start + 1             # <<<<<<<<<<<<<<
- *             string = ''.join([string, str(bin(rlen)[2:]), lieglyph])
- *     return(string)
+ *             r_len = end - start + 1             # <<<<<<<<<<<<<<
+ * 
+ *             if r_len == 1:
  */
-      __pyx_v_rlen = ((__pyx_v_end - __pyx_v_start) + 1);
+      __pyx_v_r_len = ((__pyx_v_end - __pyx_v_start) + 1);
 
-      /* "knave.pyx":39
- *                         break
- *             rlen = end - start + 1
- *             string = ''.join([string, str(bin(rlen)[2:]), lieglyph])             # <<<<<<<<<<<<<<
+      /* "knave.pyx":48
+ *             r_len = end - start + 1
+ * 
+ *             if r_len == 1:             # <<<<<<<<<<<<<<
+ *                 r_string = '1'
+ *             elif r_len == 2:
+ */
+      switch (__pyx_v_r_len) {
+        case 1:
+
+        /* "knave.pyx":49
+ * 
+ *             if r_len == 1:
+ *                 r_string = '1'             # <<<<<<<<<<<<<<
+ *             elif r_len == 2:
+ *                 r_string = '10'
+ */
+        __Pyx_INCREF(__pyx_kp_s_1);
+        __Pyx_XDECREF_SET(__pyx_v_r_string, __pyx_kp_s_1);
+
+        /* "knave.pyx":48
+ *             r_len = end - start + 1
+ * 
+ *             if r_len == 1:             # <<<<<<<<<<<<<<
+ *                 r_string = '1'
+ *             elif r_len == 2:
+ */
+        break;
+        case 2:
+
+        /* "knave.pyx":51
+ *                 r_string = '1'
+ *             elif r_len == 2:
+ *                 r_string = '10'             # <<<<<<<<<<<<<<
+ *             elif r_len == 3:
+ *                 r_string = '11'
+ */
+        __Pyx_INCREF(__pyx_kp_s_10);
+        __Pyx_XDECREF_SET(__pyx_v_r_string, __pyx_kp_s_10);
+
+        /* "knave.pyx":50
+ *             if r_len == 1:
+ *                 r_string = '1'
+ *             elif r_len == 2:             # <<<<<<<<<<<<<<
+ *                 r_string = '10'
+ *             elif r_len == 3:
+ */
+        break;
+        case 3:
+
+        /* "knave.pyx":53
+ *                 r_string = '10'
+ *             elif r_len == 3:
+ *                 r_string = '11'             # <<<<<<<<<<<<<<
+ *             elif r_len == 4:
+ *                 r_string = '100'
+ */
+        __Pyx_INCREF(__pyx_kp_s_11);
+        __Pyx_XDECREF_SET(__pyx_v_r_string, __pyx_kp_s_11);
+
+        /* "knave.pyx":52
+ *             elif r_len == 2:
+ *                 r_string = '10'
+ *             elif r_len == 3:             # <<<<<<<<<<<<<<
+ *                 r_string = '11'
+ *             elif r_len == 4:
+ */
+        break;
+        case 4:
+
+        /* "knave.pyx":55
+ *                 r_string = '11'
+ *             elif r_len == 4:
+ *                 r_string = '100'             # <<<<<<<<<<<<<<
+ *             elif r_len == 5:
+ *                 r_string = '101'
+ */
+        __Pyx_INCREF(__pyx_kp_s_100);
+        __Pyx_XDECREF_SET(__pyx_v_r_string, __pyx_kp_s_100);
+
+        /* "knave.pyx":54
+ *             elif r_len == 3:
+ *                 r_string = '11'
+ *             elif r_len == 4:             # <<<<<<<<<<<<<<
+ *                 r_string = '100'
+ *             elif r_len == 5:
+ */
+        break;
+        case 5:
+
+        /* "knave.pyx":57
+ *                 r_string = '100'
+ *             elif r_len == 5:
+ *                 r_string = '101'             # <<<<<<<<<<<<<<
+ *             else:
+ *                 r_string = string(bin(r_len)[2:])
+ */
+        __Pyx_INCREF(__pyx_kp_s_101);
+        __Pyx_XDECREF_SET(__pyx_v_r_string, __pyx_kp_s_101);
+
+        /* "knave.pyx":56
+ *             elif r_len == 4:
+ *                 r_string = '100'
+ *             elif r_len == 5:             # <<<<<<<<<<<<<<
+ *                 r_string = '101'
+ *             else:
+ */
+        break;
+        default:
+
+        /* "knave.pyx":59
+ *                 r_string = '101'
+ *             else:
+ *                 r_string = string(bin(r_len)[2:])             # <<<<<<<<<<<<<<
+ * 
+ *             if cur_bit == 0:
+ */
+        __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_r_len); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_builtin_bin, __pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 59, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_t_9, 2, 0, NULL, NULL, &__pyx_slice__2, 1, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+        __Pyx_INCREF(__pyx_v_string);
+        __pyx_t_9 = __pyx_v_string; __pyx_t_10 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_9))) {
+          __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_9);
+          if (likely(__pyx_t_10)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
+            __Pyx_INCREF(__pyx_t_10);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_9, function);
+          }
+        }
+        __pyx_t_1 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_10, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_2);
+        __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+        if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 59, __pyx_L1_error)
+        __Pyx_XDECREF_SET(__pyx_v_r_string, ((PyObject*)__pyx_t_1));
+        __pyx_t_1 = 0;
+        break;
+      }
+
+      /* "knave.pyx":61
+ *                 r_string = string(bin(r_len)[2:])
+ * 
+ *             if cur_bit == 0:             # <<<<<<<<<<<<<<
+ *                 string = ''.join([string, r_string, '1'])
+ *             else:
+ */
+      __pyx_t_4 = ((__pyx_v_cur_bit == 0) != 0);
+      if (__pyx_t_4) {
+
+        /* "knave.pyx":62
+ * 
+ *             if cur_bit == 0:
+ *                 string = ''.join([string, r_string, '1'])             # <<<<<<<<<<<<<<
+ *             else:
+ *                 string = ''.join([string, r_string, '0'])
+ */
+        __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_INCREF(__pyx_v_string);
+        __Pyx_GIVEREF(__pyx_v_string);
+        PyList_SET_ITEM(__pyx_t_1, 0, __pyx_v_string);
+        __Pyx_INCREF(__pyx_v_r_string);
+        __Pyx_GIVEREF(__pyx_v_r_string);
+        PyList_SET_ITEM(__pyx_t_1, 1, __pyx_v_r_string);
+        __Pyx_INCREF(__pyx_kp_s_1);
+        __Pyx_GIVEREF(__pyx_kp_s_1);
+        PyList_SET_ITEM(__pyx_t_1, 2, __pyx_kp_s_1);
+        __pyx_t_9 = __Pyx_PyString_Join(__pyx_kp_s_, __pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        if (!(likely(PyString_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 62, __pyx_L1_error)
+        __Pyx_DECREF_SET(__pyx_v_string, ((PyObject*)__pyx_t_9));
+        __pyx_t_9 = 0;
+
+        /* "knave.pyx":61
+ *                 r_string = string(bin(r_len)[2:])
+ * 
+ *             if cur_bit == 0:             # <<<<<<<<<<<<<<
+ *                 string = ''.join([string, r_string, '1'])
+ *             else:
+ */
+        goto __pyx_L15;
+      }
+
+      /* "knave.pyx":64
+ *                 string = ''.join([string, r_string, '1'])
+ *             else:
+ *                 string = ''.join([string, r_string, '0'])             # <<<<<<<<<<<<<<
  *     return(string)
  */
-      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_rlen); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_builtin_bin, __pyx_t_5); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 39, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_t_9, 2, 0, NULL, NULL, &__pyx_slice__2, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_t_9 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_5); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 39, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyList_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_INCREF(__pyx_v_string);
-      __Pyx_GIVEREF(__pyx_v_string);
-      PyList_SET_ITEM(__pyx_t_5, 0, __pyx_v_string);
-      __Pyx_GIVEREF(__pyx_t_9);
-      PyList_SET_ITEM(__pyx_t_5, 1, __pyx_t_9);
-      __Pyx_INCREF(__pyx_v_lieglyph);
-      __Pyx_GIVEREF(__pyx_v_lieglyph);
-      PyList_SET_ITEM(__pyx_t_5, 2, __pyx_v_lieglyph);
-      __pyx_t_9 = 0;
-      __pyx_t_9 = __Pyx_PyString_Join(__pyx_kp_s_, __pyx_t_5); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 39, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (!(likely(PyString_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 39, __pyx_L1_error)
-      __Pyx_DECREF_SET(__pyx_v_string, ((PyObject*)__pyx_t_9));
-      __pyx_t_9 = 0;
+      /*else*/ {
+        __pyx_t_9 = PyList_New(3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 64, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_v_string);
+        __Pyx_GIVEREF(__pyx_v_string);
+        PyList_SET_ITEM(__pyx_t_9, 0, __pyx_v_string);
+        __Pyx_INCREF(__pyx_v_r_string);
+        __Pyx_GIVEREF(__pyx_v_r_string);
+        PyList_SET_ITEM(__pyx_t_9, 1, __pyx_v_r_string);
+        __Pyx_INCREF(__pyx_kp_s_0);
+        __Pyx_GIVEREF(__pyx_kp_s_0);
+        PyList_SET_ITEM(__pyx_t_9, 2, __pyx_kp_s_0);
+        __pyx_t_1 = __Pyx_PyString_Join(__pyx_kp_s_, __pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+        if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 64, __pyx_L1_error)
+        __Pyx_DECREF_SET(__pyx_v_string, ((PyObject*)__pyx_t_1));
+        __pyx_t_1 = 0;
+      }
+      __pyx_L15:;
     }
   }
 
-  /* "knave.pyx":40
- *             rlen = end - start + 1
- *             string = ''.join([string, str(bin(rlen)[2:]), lieglyph])
+  /* "knave.pyx":65
+ *             else:
+ *                 string = ''.join([string, r_string, '0'])
  *     return(string)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
@@ -1629,14 +1903,16 @@ static PyObject *__pyx_f_5knave_k_map(CYTHON_UNUSED int __pyx_skip_dispatch, str
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_10);
   __Pyx_AddTraceback("knave.k_map", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_buffer);
-  __Pyx_XDECREF(__pyx_v_glyph);
-  __Pyx_XDECREF(__pyx_v_lieglyph);
+  __Pyx_XDECREF(__pyx_v_r_string);
+  __Pyx_XDECREF(__pyx_v_cur_string);
   __Pyx_XDECREF(__pyx_v_string);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -1815,6 +2091,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
   {&__pyx_kp_s_0, __pyx_k_0, sizeof(__pyx_k_0), 0, 0, 1, 0},
   {&__pyx_kp_s_1, __pyx_k_1, sizeof(__pyx_k_1), 0, 0, 1, 0},
+  {&__pyx_kp_s_10, __pyx_k_10, sizeof(__pyx_k_10), 0, 0, 1, 0},
+  {&__pyx_kp_s_100, __pyx_k_100, sizeof(__pyx_k_100), 0, 0, 1, 0},
+  {&__pyx_kp_s_101, __pyx_k_101, sizeof(__pyx_k_101), 0, 0, 1, 0},
+  {&__pyx_kp_s_11, __pyx_k_11, sizeof(__pyx_k_11), 0, 0, 1, 0},
   {&__pyx_n_s_bin, __pyx_k_bin, sizeof(__pyx_k_bin), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
@@ -1831,8 +2111,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 12, __pyx_L1_error)
-  __pyx_builtin_bin = __Pyx_GetBuiltinName(__pyx_n_s_bin); if (!__pyx_builtin_bin) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_builtin_bin = __Pyx_GetBuiltinName(__pyx_n_s_bin); if (!__pyx_builtin_bin) __PYX_ERR(0, 59, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -1842,13 +2122,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "knave.pyx":39
- *                         break
- *             rlen = end - start + 1
- *             string = ''.join([string, str(bin(rlen)[2:]), lieglyph])             # <<<<<<<<<<<<<<
- *     return(string)
+  /* "knave.pyx":59
+ *                 r_string = '101'
+ *             else:
+ *                 r_string = string(bin(r_len)[2:])             # <<<<<<<<<<<<<<
+ * 
+ *             if cur_bit == 0:
  */
-  __pyx_slice__2 = PySlice_New(__pyx_int_2, Py_None, Py_None); if (unlikely(!__pyx_slice__2)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_slice__2 = PySlice_New(__pyx_int_2, Py_None, Py_None); if (unlikely(!__pyx_slice__2)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__2);
   __Pyx_GIVEREF(__pyx_slice__2);
   __Pyx_RefNannyFinishContext();
@@ -1860,6 +2141,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -2207,13 +2489,129 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
     return result;
 }
 
-/* None */
-static CYTHON_INLINE int __Pyx_div_int(int a, int b) {
-    int q = a / b;
-    int r = a - q*b;
-    q -= ((r != 0) & ((r ^ b) < 0));
-    return q;
+/* PyIntBinop */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_SubtractCObj(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, int inplace, int zerodivision_check) {
+    (void)inplace;
+    (void)zerodivision_check;
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op2))) {
+        const long a = intval;
+        long x;
+        long b = PyInt_AS_LONG(op2);
+            x = (long)((unsigned long)a - b);
+            if (likely((x^a) >= 0 || (x^~b) >= 0))
+                return PyInt_FromLong(x);
+            return PyLong_Type.tp_as_number->nb_subtract(op1, op2);
+    }
+    #endif
+    #if CYTHON_USE_PYLONG_INTERNALS
+    if (likely(PyLong_CheckExact(op2))) {
+        const long a = intval;
+        long b, x;
+#ifdef HAVE_LONG_LONG
+        const PY_LONG_LONG lla = intval;
+        PY_LONG_LONG llb, llx;
+#endif
+        const digit* digits = ((PyLongObject*)op2)->ob_digit;
+        const Py_ssize_t size = Py_SIZE(op2);
+        if (likely(__Pyx_sst_abs(size) <= 1)) {
+            b = likely(size) ? digits[0] : 0;
+            if (size == -1) b = -b;
+        } else {
+            switch (size) {
+                case -2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        b = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        llb = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        b = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        llb = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        b = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        llb = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        b = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        llb = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        b = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        llb = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        b = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        llb = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                default: return PyLong_Type.tp_as_number->nb_subtract(op1, op2);
+            }
+        }
+                x = a - b;
+            return PyLong_FromLong(x);
+#ifdef HAVE_LONG_LONG
+        long_long:
+                llx = lla - llb;
+            return PyLong_FromLongLong(llx);
+#endif
+        
+        
+    }
+    #endif
+    if (PyFloat_CheckExact(op2)) {
+        const long a = intval;
+        double b = PyFloat_AS_DOUBLE(op2);
+            double result;
+            PyFPE_START_PROTECT("subtract", return NULL)
+            result = ((double)a) - (double)b;
+            PyFPE_END_PROTECT(result)
+            return PyFloat_FromDouble(result);
+    }
+    return (inplace ? PyNumber_InPlaceSubtract : PyNumber_Subtract)(op1, op2);
 }
+#endif
 
 /* GetItemInt */
 static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
@@ -2450,13 +2848,6 @@ return_ne:
     return (equals == Py_NE);
 #endif
 }
-
-/* StringJoin */
-#if !CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values) {
-    return PyObject_CallMethodObjArgs(sep, __pyx_n_s_join, values, NULL);
-}
-#endif
 
 /* PyCFunctionFastCall */
 #if CYTHON_FAST_PYCCALL
@@ -2776,6 +3167,42 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetSlice(PyObject* obj,
 bad:
     return NULL;
 }
+
+/* PyObjectCall2Args */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
+    PyObject *args, *result = NULL;
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyFunction_FastCall(function, args, 2);
+    }
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyCFunction_FastCall(function, args, 2);
+    }
+    #endif
+    args = PyTuple_New(2);
+    if (unlikely(!args)) goto done;
+    Py_INCREF(arg1);
+    PyTuple_SET_ITEM(args, 0, arg1);
+    Py_INCREF(arg2);
+    PyTuple_SET_ITEM(args, 1, arg2);
+    Py_INCREF(function);
+    result = __Pyx_PyObject_Call(function, args, NULL);
+    Py_DECREF(args);
+    Py_DECREF(function);
+done:
+    return result;
+}
+
+/* StringJoin */
+#if !CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values) {
+    return PyObject_CallMethodObjArgs(sep, __pyx_n_s_join, values, NULL);
+}
+#endif
 
 /* RaiseDoubleKeywords */
 static void __Pyx_RaiseDoubleKeywordsError(
@@ -3220,6 +3647,37 @@ bad:
     }
 
 /* CIntToPy */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
+    const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(long) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(long) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(long) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(long),
+                                     little, !is_unsigned);
+    }
+}
+
+/* CIntToPy */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
     const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
     const int is_unsigned = neg_one > const_zero;
@@ -3355,37 +3813,6 @@ bad:
     return -1;
 }
 #endif
-
-/* CIntToPy */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
-    const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
-    const int is_unsigned = neg_one > const_zero;
-    if (is_unsigned) {
-        if (sizeof(long) < sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(long) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
-            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
-#endif
-        }
-    } else {
-        if (sizeof(long) <= sizeof(long)) {
-            return PyInt_FromLong((long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
-            return PyLong_FromLongLong((PY_LONG_LONG) value);
-#endif
-        }
-    }
-    {
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(long),
-                                     little, !is_unsigned);
-    }
-}
 
 /* CIntFromPy */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
