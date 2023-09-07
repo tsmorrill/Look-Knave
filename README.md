@@ -1,4 +1,7 @@
 # Look Knave
+
+This repository is deprecated. Please see Knavery for current implementation.
+
 Calculate the binary Look-Knave sequence.
 
 The binary Look-Say sequence is defined as follows. Start with 1. Iterate by describing the previous string. So,
